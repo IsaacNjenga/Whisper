@@ -24,8 +24,8 @@ function App() {
             <Route path="/" element={<Navbar />}>
               <Route index element={<Home />} />
               <Route path="chats" element={<Chats />} />
+              <Route path="auth" element={<Auth />} />
             </Route>
-            <Route path="login" element={<Auth />} />
           </Routes>
         </BrowserRouter>
       </UserContext.Provider>

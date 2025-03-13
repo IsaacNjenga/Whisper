@@ -1,10 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Layout, Menu } from "antd";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import {
-  CommentOutlined,
-  TeamOutlined,
-} from "@ant-design/icons";
+import { CommentOutlined, TeamOutlined } from "@ant-design/icons";
 import logo from "../assets/icons/chat-icon.png";
 import { UserContext } from "../App";
 
@@ -18,6 +15,7 @@ function Navbar() {
   const navItems = [
     { label: "Chats", icon: CommentOutlined, path: "/chats" },
     { label: "Channels", icon: TeamOutlined, path: "/" },
+    { label: "Login", icon: TeamOutlined, path: "/auth" },
   ];
 
   const handleClick = (e) => setCurrent(e.key);
@@ -33,7 +31,7 @@ function Navbar() {
             width: "100%",
             height: "auto",
             padding: "1px",
-            background: "linear-gradient(to right, #350d4b 0%, #e5001a 100%)",
+            background: "linear-gradient(to left, #350d4b 0%, #e5001a 100%)",
           }}
         >
           {/* Logo and Name Container */}
@@ -101,7 +99,7 @@ function Navbar() {
                 fontSize: "14px",
                 fontWeight: "bold",
                 background:
-                  "linear-gradient(to right, #350d4b 0%, #e5001a 100%)",
+                  "linear-gradient(to left, #350d4b 0%, #e5001a 100%)",
                 color: "white",
               }}
             >
@@ -125,8 +123,8 @@ function Navbar() {
                     justifyContent: "center",
                     width: "100px",
                     textAlign: "center",
-                    flex: 1,
                     gap: "2px", // Controls spacing between icon & text
+                    //flex:1
                   }}
                 >
                   <Link
