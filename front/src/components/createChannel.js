@@ -25,7 +25,7 @@ const ChannelNameInput = ({ channelName = "", setChannelName }) => {
 };
 
 function CreateChannel() {
-  const { createType, setIsCreating } = useContext(UserContext);
+  const { createType, setIsCreating, closeDrawer } = useContext(UserContext);
   //const [selectedUsers, setSelectedUsers] = useState([client.userID || ""]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [channelName, setChannelName] = useState("");
@@ -40,9 +40,10 @@ function CreateChannel() {
       //   });
       //   await newChannel.watch();
       console.log(channelName);
-      console.log("selectedUsers",selectedUsers)
+      console.log("selectedUsers", selectedUsers);
       setChannelName("");
       setIsCreating(false);
+      closeDrawer();
       //   setSelectedUsers([client.userID]);
       //   setActiveChannel(newChannel);
     } catch (error) {
@@ -73,7 +74,7 @@ function CreateChannel() {
         disabled={selectedUsers.length === 0 ? true : false}
         style={{ margin: "10px 0px" }}
       >
-        {createType ? "Create Channel" : "Message"}
+        {createType === "team" ? "Create Channel" : "Message"}
       </Button>
     </div>
   );
