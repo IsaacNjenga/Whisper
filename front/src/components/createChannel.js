@@ -1,9 +1,8 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../App";
 import Swal from "sweetalert2";
-import { Button, Divider, Form, Input, Typography } from "antd";
-import ChatsPreview from "./chatsPreview";
-const { Text } = Typography;
+import { Button, Divider, Form, Input } from "antd";
+import UsersList from "./usersList";
 
 const ChannelNameInput = ({ channelName = "", setChannelName }) => {
   const [form] = Form.useForm();
@@ -21,8 +20,6 @@ const ChannelNameInput = ({ channelName = "", setChannelName }) => {
         />
       </Form.Item>
       <Divider />
-      <Text>Add Members</Text>
-      <br />
     </Form>
   );
 };
@@ -43,6 +40,7 @@ function CreateChannel() {
       //   });
       //   await newChannel.watch();
       console.log(channelName);
+      console.log("selectedUsers",selectedUsers)
       setChannelName("");
       setIsCreating(false);
       //   setSelectedUsers([client.userID]);
@@ -65,8 +63,16 @@ function CreateChannel() {
         channelName={channelName}
         setChannelName={setChannelName}
       />
-      <ChatsPreview />
-      <Button type="primary" onClick={createChannel}>
+      <UsersList
+        selectedUsers={selectedUsers}
+        setSelectedUsers={setSelectedUsers}
+      />
+      <Button
+        type="primary"
+        onClick={createChannel}
+        disabled={selectedUsers.length === 0 ? true : false}
+        style={{ margin: "10px 0px" }}
+      >
         {createType ? "Create Channel" : "Message"}
       </Button>
     </div>

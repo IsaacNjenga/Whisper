@@ -31,7 +31,7 @@ function Channels() {
       />
       <ChannelsPreview />
       <Drawer
-        title="Add Members"
+        title="Create a channel"
         width={isMobile ? 350 : 600}
         onClose={() => {
           closeDrawer();
@@ -42,7 +42,13 @@ function Channels() {
         styles={{ body: { paddingBottom: 60 } }}
         extra={
           <Space>
-            <Button onClick={closeDrawer}>Cancel</Button>
+            <Button
+              onClick={closeDrawer}
+              type="primary"
+              style={{ background: "red" }}
+            >
+              Cancel
+            </Button>
           </Space>
         }
       >
