@@ -1,14 +1,21 @@
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Card, Divider, Form, Input } from "antd";
+import axios from "axios";
 import React, { useState } from "react";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
+const avatarForNow =
+  "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&w=400";
 
 const initialValues = {
-  firstName: "",
-  lastName: "",
+  // firstName: "",
+  // lastName: "",
+  // email: "",
+  fullName: "",
   password: "",
-  email: "",
   username: "",
-  avatar: "",
+  avatarUrl: "",
   phoneNumber: "",
 };
 
@@ -33,10 +40,34 @@ function Auth() {
     setValues((prevValues) => ({ ...prevValues, [name]: value }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setLoading(true);
     try {
-      console.log(values);
+      const { username, avatarUrl, password, phoneNumber } = values;
+
+      const url = "http://localhost:3001/whisper";
+      const {
+        data: { token, userId, hashedPassword, fullName },
+      } = await axios.post(`${url}/${isSignUp ? "signup" : "login"}`, {
+        username,
+        password,
+        avatarUrl: avatarForNow,
+        fullName: values.fullName,
+        phoneNumber,
+      });
+
+      cookies.set("token", token);
+      cookies.set("username", username);
+      cookies.set("fullName", fullName);
+      cookies.set("userId", userId);
+
+      if (isSignUp) {
+        cookies.set("phoneNumber", phoneNumber);
+        cookies.set("avatarUrl", avatarUrl);
+        cookies.set("hashedPassword", hashedPassword);
+      }
+
+      window.location.reload();
     } catch (error) {
       console.log(error);
     } finally {
@@ -81,7 +112,7 @@ function Auth() {
               }}
             >
               {/* First Name */}
-              <Form.Item
+              {/* <Form.Item
                 label={
                   <span style={{ color: "#fff", fontSize: 18 }}>
                     First Name
@@ -95,9 +126,9 @@ function Auth() {
                   onChange={(e) => handleChange("firstName", e.target.value)}
                   style={inputStyle}
                 />
-              </Form.Item>
+              </Form.Item> */}
               {/* Last Name */}
-              <Form.Item
+              {/* <Form.Item
                 label={
                   <span style={{ color: "#fff", fontSize: 18 }}>Last Name</span>
                 }
@@ -109,9 +140,23 @@ function Auth() {
                   onChange={(e) => handleChange("lastName", e.target.value)}
                   style={inputStyle}
                 />
+              </Form.Item> */}
+              {/* Full Name */}
+              <Form.Item
+                label={
+                  <span style={{ color: "#fff", fontSize: 18 }}>Full Name</span>
+                }
+                name="fullName"
+                rules={[{ required: true, message: "This field is required" }]}
+              >
+                <Input
+                  value={values.fullName}
+                  onChange={(e) => handleChange("fullName", e.target.value)}
+                  style={inputStyle}
+                />
               </Form.Item>
               {/* Email Address */}
-              <Form.Item
+              {/* <Form.Item
                 label={
                   <span style={{ color: "#fff", fontSize: 18 }}>
                     Email Address
@@ -125,12 +170,12 @@ function Auth() {
                   onChange={(e) => handleChange("email", e.target.value)}
                   style={inputStyle}
                 />
-              </Form.Item>
+              </Form.Item> */}
               {/* Phone Number */}
               <Form.Item
                 label={
                   <span style={{ color: "#fff", fontSize: 18 }}>
-                    Phone Number (+)
+                    Phone Number (+254)
                   </span>
                 }
                 name="phoneNumber"
@@ -230,7 +275,10 @@ function Auth() {
           </div>
           <p style={{ color: "white" }}>
             {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
-            <span onClick={switchMode} style={{ cursor: "pointer" }}>
+            <span
+              onClick={switchMode}
+              style={{ cursor: "pointer", textDecoration: "underline" }}
+            >
               {isSignUp ? "Sign in" : "Sign up"}
             </span>
           </p>

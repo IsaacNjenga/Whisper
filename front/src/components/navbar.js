@@ -66,8 +66,8 @@ function Navbar() {
                   src={logo}
                   alt="logo"
                   style={{
-                    width: "70px",
-                    height: "70px",
+                    width: "75px",
+                    height: "75px",
                     marginRight: "10px",
                   }}
                 />
@@ -76,7 +76,7 @@ function Navbar() {
                     color: "#f0ecec",
                     margin: 0,
                     fontSize: "2.5rem",
-                    letterSpacing: "1.5px",
+                    letterSpacing: "1.8px",
                     fontFamily: "'Brush Script MT', cursive",
                     zIndex: 10,
                   }}
@@ -110,7 +110,8 @@ function Navbar() {
                     <item.icon
                       style={{
                         fontSize: "1.55rem",
-                        marginBottom: "-4px", // Moves icon closer to text
+                        marginBottom: "-20px",
+                        marginTop: "14px",
                       }}
                     />
                   }
@@ -123,7 +124,7 @@ function Navbar() {
                     justifyContent: "center",
                     width: "100px",
                     textAlign: "center",
-                    gap: "2px", // Controls spacing between icon & text
+                    gap: "2px",
                     //flex:1
                   }}
                 >
@@ -146,13 +147,13 @@ function Navbar() {
         {/* Main Content */}
         <Content
           style={{
-            padding: "0px 0px",
+            padding: "30px 0px",
             minHeight: "calc(100vh - 64px - 70px)",
+            background: "#fff",
           }}
         >
           <Outlet />
         </Content>
-
         {/* Footer */}
         <Footer
           style={{ padding: "0px 0px", margin: "0px 0px", background: "black" }}
