@@ -1,7 +1,11 @@
 import React, { useState, useContext } from "react";
 import { Layout, Menu } from "antd";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { CommentOutlined, TeamOutlined } from "@ant-design/icons";
+import {
+  CommentOutlined,
+  PoweroffOutlined,
+  TeamOutlined,
+} from "@ant-design/icons";
 import logo from "../assets/icons/chat-icon.png";
 import { UserContext } from "../App";
 
@@ -10,12 +14,16 @@ const { Header, Content, Footer } = Layout;
 function Navbar() {
   const location = useLocation();
   const [current, setCurrent] = useState(location.pathname);
-  const { isMobile } = useContext(UserContext);
+  const { isMobile, authToken } = useContext(UserContext);
 
   const navItems = [
     { label: "Chats", icon: CommentOutlined, path: "/chats" },
     { label: "Channels", icon: TeamOutlined, path: "/" },
-    { label: "Login", icon: TeamOutlined, path: "/auth" },
+    {
+      label: authToken ? "Logout" : "Login",
+      icon: PoweroffOutlined,
+      path: "/logout",
+    },
   ];
 
   const handleClick = (e) => setCurrent(e.key);
@@ -149,7 +157,7 @@ function Navbar() {
           style={{
             padding: "30px 0px",
             minHeight: "calc(100vh - 64px - 70px)",
-            background: "#fff",
+            background: "grey",
           }}
         >
           <Outlet />

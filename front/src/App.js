@@ -3,10 +3,12 @@ import Cookies from "universal-cookie";
 import { StreamChat } from "stream-chat";
 import "stream-chat-react/dist/css/v2/index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/channels";
+import Channels from "./pages/channels";
 import Chats from "./pages/chats";
 import Auth from "./pages/auth";
 import Navbar from "./components/navbar";
+import { Chat } from "stream-chat-react";
+import Logout from "./pages/logout";
 
 export const UserContext = createContext();
 
@@ -47,9 +49,9 @@ function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // if (!authToken) {
-  //   return <Auth />;
-  // }
+  if (!authToken) {
+    return <Auth />;
+  }
 
   return (
     <>
@@ -67,17 +69,21 @@ function App() {
           setOpenDrawer,
           showDrawer,
           closeDrawer,
+          authToken,
         }}
       >
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Navbar />}>
-              <Route index element={<Home />} />
-              <Route path="chats" element={<Chats />} />
-              <Route path="auth" element={<Auth />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <Chat client={client} theme="team light">
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Navbar />}>
+                <Route index element={<Channels />} />
+                <Route path="chats" element={<Chats />} />
+                <Route path="auth" element={<Auth />} />
+                <Route path="logout" element={<Logout />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>{" "}
+        </Chat>
       </UserContext.Provider>
     </>
   );

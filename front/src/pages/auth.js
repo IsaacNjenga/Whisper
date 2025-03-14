@@ -29,7 +29,7 @@ const inputStyle = {
 function Auth() {
   const [form] = Form.useForm();
   const [values, setValues] = useState(initialValues);
-  const [isSignUp, setSignUp] = useState(true);
+  const [isSignUp, setSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const switchMode = () => {
@@ -43,31 +43,31 @@ function Auth() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      // const { username, avatarUrl, password, phoneNumber } = values;
+      const { username, avatarUrl, password, phoneNumber } = values;
 
-      // const url = "http://localhost:3001/whisper";
-      // const {
-      //   data: { token, userId, hashedPassword, fullName },
-      // } = await axios.post(`${url}/${isSignUp ? "signup" : "login"}`, {
-      //   username,
-      //   password,
-      //   avatarUrl: avatarForNow,
-      //   fullName: values.fullName,
-      //   phoneNumber,
-      // });
+      const url = "http://localhost:3001/whisper";
+      const {
+        data: { token, userId, hashedPassword, fullName },
+      } = await axios.post(`${url}/${isSignUp ? "signup" : "login"}`, {
+        username,
+        password,
+        avatarUrl: avatarForNow,
+        fullName: values.fullName,
+        phoneNumber,
+      });
 
-      // cookies.set("token", token);
-      // cookies.set("username", username);
-      // cookies.set("fullName", fullName);
-      // cookies.set("userId", userId);
+      cookies.set("token", token);
+      cookies.set("username", username);
+      cookies.set("fullName", fullName);
+      cookies.set("userId", userId);
 
-      // if (isSignUp) {
-      //   cookies.set("phoneNumber", phoneNumber);
-      //   cookies.set("avatarUrl", avatarUrl);
-      //   cookies.set("hashedPassword", hashedPassword);
-      // }
+      if (isSignUp) {
+        cookies.set("phoneNumber", phoneNumber);
+        cookies.set("avatarUrl", avatarUrl);
+        cookies.set("hashedPassword", hashedPassword);
+      }
 
-      // window.location.reload();
+      window.location.reload();
     } catch (error) {
       console.log(error);
     } finally {
@@ -204,14 +204,8 @@ function Auth() {
               style={inputStyle}
             />
           </Form.Item>
-          <div
-            style={{
-              display: "grid",
-              gap: "5px",
-              gridTemplateColumns: "repeat(auto-fill, minmax(200px,1fr))",
-            }}
-          >
-            {/* Password */}
+
+          {!isSignUp && (
             <Form.Item
               label={
                 <span style={{ color: "#fff", fontSize: 18 }}>Password</span>
@@ -232,8 +226,39 @@ function Auth() {
                 style={inputStyle}
               />
             </Form.Item>
-            {/* Confirm Password */}
-            {isSignUp && (
+          )}
+
+          {isSignUp && (
+            <div
+              style={{
+                display: "grid",
+                gap: "5px",
+                gridTemplateColumns: "repeat(auto-fill, minmax(200px,1fr))",
+              }}
+            >
+              {/* Password */}
+              <Form.Item
+                label={
+                  <span style={{ color: "#fff", fontSize: 18 }}>Password</span>
+                }
+                name="password"
+                rules={[{ required: true, message: "This field is required" }]}
+              >
+                <Input.Password
+                  iconRender={(visible) =>
+                    visible ? (
+                      <EyeTwoTone style={{ color: "white" }} />
+                    ) : (
+                      <EyeInvisibleOutlined style={{ color: "white" }} />
+                    )
+                  }
+                  onChange={(e) => handleChange("password", e.target.value)}
+                  value={values.password}
+                  style={inputStyle}
+                />
+              </Form.Item>
+              {/* Confirm Password */}
+
               <Form.Item
                 label={
                   <span style={{ color: "#fff", fontSize: 18 }}>
@@ -271,8 +296,8 @@ function Auth() {
                   style={inputStyle}
                 />
               </Form.Item>
-            )}
-          </div>
+            </div>
+          )}
           <p style={{ color: "white" }}>
             {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
             <span

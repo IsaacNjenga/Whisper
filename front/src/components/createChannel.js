@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../App";
 import Swal from "sweetalert2";
-import { Button, Divider, Form, Input } from "antd";
+import { Alert, Button, Divider, Form, Input } from "antd";
 import UsersList from "./usersList";
+import { useChatContext } from "stream-chat-react";
 
 const ChannelNameInput = ({ channelName = "", setChannelName }) => {
   const [form] = Form.useForm();
@@ -25,38 +26,64 @@ const ChannelNameInput = ({ channelName = "", setChannelName }) => {
 };
 
 function CreateChannel() {
+  const { client, setActiveChannel } = useChatContext();
   const { createType, setIsCreating, closeDrawer } = useContext(UserContext);
-  //const [selectedUsers, setSelectedUsers] = useState([client.userID || ""]);
-  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([client.userID || ""]);
   const [channelName, setChannelName] = useState("");
   const [loading, setLoading] = useState(false);
 
   const createChannel = async () => {
     setLoading(true);
     try {
-      // const newChannel = await client.channel(createType, channelName, {
-      //     name: channelName,
-      //     members: selectedUsers,
-      //   });
-      //   await newChannel.watch();
-      console.log(channelName);
-      console.log("selectedUsers", selectedUsers);
+      if (!createType || typeof createType !== "string") {
+        throw new Error("Invalid channel type");
+      }
+  
+      // If it's a DM, use the recipient's name/ID as the channel name
+      const finalChannelName =
+        createType === "messaging"
+          ? selectedUsers.find((id) => id !== client.userID) || "private-chat"
+          : channelName;
+  
+      if (!finalChannelName || typeof finalChannelName !== "string") {
+        throw new Error("Invalid channel name");
+      }
+  
+      console.log("Creating channel with:", {
+        createType,
+        finalChannelName,
+        selectedUsers,
+      });
+  
+      const newChannel = await client.channel(createType, finalChannelName, {
+        name: finalChannelName,
+        members: selectedUsers,
+      });
+  
+      await newChannel.watch();
+      console.log("New Channel Created:", newChannel);
+  
       setChannelName("");
       setIsCreating(false);
       closeDrawer();
-      //   setSelectedUsers([client.userID]);
-      //   setActiveChannel(newChannel);
+      setSelectedUsers([client.userID]);
+      setActiveChannel(newChannel);
     } catch (error) {
-      console.log(error);
+      console.error("Error creating channel:", error);
       Swal.fire({
         icon: "warning",
         title: "Something went wrong",
-        text: "Please refresh and try again",
+        text: error.message || "Please refresh and try again",
       });
     } finally {
       setLoading(false);
     }
   };
+  
+
+  if (loading) {
+    <Alert message="Loading" showIcon />;
+  }
 
   return (
     <div>

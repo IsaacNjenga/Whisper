@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Avatar, Tag, List, Alert, Empty } from "antd";
 import {
   PlusCircleOutlined,
@@ -6,30 +6,52 @@ import {
   CloseCircleOutlined,
 } from "@ant-design/icons";
 import { UserContext } from "../App";
-
-const pfp = "https://randomuser.me/api/portraits/lego/2.jpg";
-
-const chatUsers = [
-  { id: 1, name: "Isaac", image: pfp },
-  { id: 2, name: "Emma", image: pfp },
-  { id: 3, name: "Liam", image: pfp },
-  { id: 4, name: "Olivia", image: pfp },
-];
+import { useChatContext } from "stream-chat-react";
 
 const UsersList = ({ selectedUsers, setSelectedUsers }) => {
+  const { client } = useChatContext();
   const { isMobile } = useContext(UserContext);
+  const [users, setUsers] = useState([]);
   const [error, setError] = useState(false);
   const [listEmpty, setListEmpty] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const toggleUserSelection = (user) => {
     setSelectedUsers((prev) => {
-      if (prev.some((u) => u.id === user.id)) {
-        return prev.filter((u) => u.id !== user.id);
-      } else {
-        return [...prev, user];
-      }
+      const updatedSelection = prev.some((u) => u === user.id)
+        ? prev.filter((u) => u !== user.id)
+        : [...prev, user.id]; // Store only user IDs
+  
+      console.log("Selected Users (IDs only):", updatedSelection);
+      return updatedSelection;
     });
   };
+  
+
+  useEffect(() => {
+    const getUsers = async () => {
+      setLoading(true);
+
+      try {
+        const response = await client.queryUsers(
+          { id: { $ne: client.userID } },
+          { id: 1 },
+          { limit: 8 }
+        );
+
+        if (response.users.length) {
+          setUsers(response.users);
+        } else {
+          setListEmpty(true);
+        }
+      } catch (error) {
+        setError(true);
+      }
+      setLoading(false);
+    };
+
+    if (client) getUsers();
+  }, []);
 
   if (error) {
     return (
@@ -45,6 +67,8 @@ const UsersList = ({ selectedUsers, setSelectedUsers }) => {
   if (listEmpty) {
     return <Empty description="No users found" />;
   }
+
+  if (loading) return <Alert message="Loading" showIcon />;
 
   return (
     <div
@@ -75,7 +99,7 @@ const UsersList = ({ selectedUsers, setSelectedUsers }) => {
       {/* Users List */}
       <List
         header={<div style={{ fontWeight: "bold" }}>Users</div>}
-        dataSource={chatUsers}
+        dataSource={users}
         renderItem={(user) => {
           const isSelected = selectedUsers.some((u) => u.id === user.id);
           return (
@@ -84,7 +108,7 @@ const UsersList = ({ selectedUsers, setSelectedUsers }) => {
               style={{ cursor: "pointer" }}
             >
               <List.Item.Meta
-                avatar={<Avatar src={user.image} />}
+                avatar={<Avatar src={user.image ? user.image : null} />}
                 title={user.name}
               />
               {isSelected ? (
