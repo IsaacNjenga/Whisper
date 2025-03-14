@@ -60,10 +60,12 @@ function CreateChannel() {
 
   return (
     <div>
-      <ChannelNameInput
-        channelName={channelName}
-        setChannelName={setChannelName}
-      />
+      {createType === "team" && (
+        <ChannelNameInput
+          channelName={channelName}
+          setChannelName={setChannelName}
+        />
+      )}
       <UsersList
         selectedUsers={selectedUsers}
         setSelectedUsers={setSelectedUsers}

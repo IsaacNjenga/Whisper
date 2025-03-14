@@ -9,6 +9,7 @@ function ChatContainer({
   setIsCreating,
   setIsEditing,
   createType,
+  preview,
 }) {
   if (isCreating) {
     return <div>creating channel</div>;
@@ -29,14 +30,15 @@ function ChatContainer({
   return (
     <>
       <div>
-        <Channel
+        {/* <Channel
           EmptyStateIndicator={EmptyState}
           Message={(messageProps, i) => (
             <MessageSimple key={i} {...messageProps} />
           )}
         >
-          <ChatInner />
-        </Channel>
+        <ChatInner setIsEditing={setIsEditing} />
+        </Channel> */}
+        <p>{preview.name}</p>
       </div>
     </>
   );

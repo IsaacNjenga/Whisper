@@ -13,6 +13,7 @@ function Chats() {
     closeDrawer,
     showDrawer,
     openDrawer,
+    isCreating,
   } = useContext(UserContext);
   return (
     <div>
@@ -27,31 +28,35 @@ function Chats() {
           setIsCreating(true);
         }}
       />
-      <ChatsPreview />{" "}
-      <Drawer
-        title="Start a new conversation"
-        width={isMobile ? 350 : 600}
-        onClose={() => {
-          closeDrawer();
-          setIsCreating(false);
-          setCreateType("");
-        }}
-        open={openDrawer}
-        styles={{ body: { paddingBottom: 60 } }}
-        extra={
-          <Space>
-            <Button
-              onClick={closeDrawer}
-              type="primary"
-              style={{ background: "red" }}
-            >
-              Cancel
-            </Button>
-          </Space>
-        }
-      >
-        <CreateChannel />
-      </Drawer>
+      <div>
+        <ChatsPreview />
+      </div>
+      {isCreating && (
+        <Drawer
+          title="Start a new conversation"
+          width={isMobile ? 350 : 600}
+          onClose={() => {
+            closeDrawer();
+            setIsCreating(false);
+            setCreateType("");
+          }}
+          open={openDrawer}
+          styles={{ body: { paddingBottom: 60 } }}
+          extra={
+            <Space>
+              <Button
+                onClick={closeDrawer}
+                type="primary"
+                style={{ background: "red" }}
+              >
+                Cancel
+              </Button>
+            </Space>
+          }
+        >
+          <CreateChannel />
+        </Drawer>
+      )}
     </div>
   );
 }
