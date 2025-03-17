@@ -45,7 +45,9 @@ function Auth() {
     try {
       const { username, avatarUrl, password, phoneNumber } = values;
 
-      const url = "http://localhost:3001/whisper";
+      const url = "https://whisper-server-xi.vercel.app/whisper";
+      //http://localhost:3001/
+
       const {
         data: { token, userId, hashedPassword, fullName },
       } = await axios.post(`${url}/${isSignUp ? "signup" : "login"}`, {
