@@ -92,7 +92,11 @@ function CreateChannel({ createType }) {
         type="primary"
         onClick={createChannel}
         disabled={selectedUsers.length === 0 ? true : false}
-        style={{ margin: "10px 0px" }}
+        style={{
+          margin: "10px 0px",
+          display: "flex",
+          justifyContent: "right",
+        }}
       >
         {createType === "team" ? "Create Channel" : "Message"}
       </Button>

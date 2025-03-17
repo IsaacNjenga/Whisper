@@ -14,8 +14,8 @@
 
 .chats-tabs .ant-tabs-tab {
   font-size: 16px;
-  font-weight: 500;
-  padding: 10px 15px;
+  font-weight: 400;
+  padding: 10px 8px;
   transition: 0.3s;
 }
 
@@ -26,13 +26,6 @@
 .chats-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
   color: #1678ff !important;
   font-weight: bold;
-}
-
-/* Custom styling for tab labels */
-.tab-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 /* Content styling */

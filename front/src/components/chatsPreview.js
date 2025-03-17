@@ -4,7 +4,11 @@ import { ChannelList, useChatContext } from "stream-chat-react";
 import TeamChannelList from "./teamChannelList";
 import TeamChannelPreview from "./teamChannelPreview";
 import { Tabs } from "antd";
-import { ClockCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import {
+  ClockCircleOutlined,
+  PlusCircleOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import CreateChannel from "./createChannel";
 import "../assets/css/chatsPreview.css";
 
@@ -55,11 +59,7 @@ const ChatsPreview = () => {
 
   const tabItems = [
     {
-      label: (
-        <span className="tab-label">
-          <PlusCircleOutlined /> New
-        </span>
-      ),
+      label: "New",
       key: "1",
       children: (
         <CreateChannel
@@ -68,13 +68,10 @@ const ChatsPreview = () => {
           }}
         />
       ),
+      icon: <PlusCircleOutlined />,
     },
     {
-      label: (
-        <span className="tab-label">
-          <ClockCircleOutlined /> Recent Chats
-        </span>
-      ),
+      label: "Chats",
       key: "2",
       children: (
         <RecentList
@@ -84,7 +81,9 @@ const ChatsPreview = () => {
           setIsEditing={setIsEditing}
         />
       ),
+      icon: <ClockCircleOutlined />,
     },
+    { label: "Search", key: 3, children: "search", icon: <SearchOutlined /> },
   ];
 
   return (

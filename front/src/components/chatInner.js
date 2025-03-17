@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MessageList,
   MessageInput,
@@ -16,7 +16,6 @@ export const GiphyContext = React.createContext({});
 const ChatInner = ({ setIsEditing }) => {
   const [giphyState, setGiphyState] = useState(false);
   const { sendMessage } = useChannelActionContext();
-
   const overrideSubmitHandler = (message) => {
     let updatedMessage = {
       attachments: message.attachments,
@@ -42,6 +41,7 @@ const ChatInner = ({ setIsEditing }) => {
         <Window>
           <TeamChannelHeader setIsEditing={setIsEditing} />
           <MessageList />
+
           <MessageInput overrideSubmitHandler={overrideSubmitHandler} />
         </Window>
         <Thread />
@@ -51,8 +51,26 @@ const ChatInner = ({ setIsEditing }) => {
 };
 
 const TeamChannelHeader = ({ setIsEditing }) => {
-  const { channel, watcher_count } = useChannelStateContext();
+  const { channel } = useChannelStateContext();
   const { client } = useChatContext();
+  const [watcherCount, setWatcherCount] = useState(
+    channel?.state?.watcher_count || 0
+  );
+
+  // 📌 Update watcher count dynamically
+  useEffect(() => {
+    const handleWatcherUpdate = () => {
+      setWatcherCount(channel?.state?.watcher_count || 0);
+    };
+
+    channel.on("user.watching.start", handleWatcherUpdate);
+    channel.on("user.watching.stop", handleWatcherUpdate);
+
+    return () => {
+      channel.off("user.watching.start", handleWatcherUpdate);
+      channel.off("user.watching.stop", handleWatcherUpdate);
+    };
+  }, [channel]);
 
   const MessagingHeader = () => {
     const members = Object.values(channel.state.members).filter(
@@ -90,20 +108,18 @@ const TeamChannelHeader = ({ setIsEditing }) => {
     );
   };
 
-  const getWatcherText = (watchers) => {
-    if (!watchers) return <p style={{ color: "grey" }}>Offline</p>;
-    if (watchers === 1) return <p style={{ color: "grey" }}>Offline</p>;
-    if (watcher_count > 2)
-      return <p style={{ color: "green" }}>{watcher_count} online</p>;
-    return <p style={{ color: "green" }}>Online</p>;
+  const getWatcherText = () => {
+    if (!watcherCount) return <p className="offline-text">Offline</p>;
+    if (watcherCount === 1) return <p className="offline-text">offline</p>;
+    if (watcherCount > 2)
+      return <p className="online-text">{watcherCount} online</p>;
+    return <p className="online-text">online</p>;
   };
 
   return (
     <div className="header-container">
       <MessagingHeader />
-      <div className="online-status">
-        <p className="status-text">{getWatcherText(watcher_count)}</p>
-      </div>
+      <div className="online-status">{getWatcherText()}</div>
     </div>
   );
 };

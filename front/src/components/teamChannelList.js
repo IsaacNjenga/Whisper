@@ -1,26 +1,33 @@
-//adding a channel
 import React from "react";
-import Swal from "sweetalert2";
+import { Spin, Alert } from "antd"; // Importing Ant Design components for loading and error handling
+import "../assets/css/teamChannelList.css"; // Assuming you have a CSS file for styles
 
 function TeamChannelList({ children, error = false, loading, type }) {
-  if (error) {
-    return type === "messages"
-      ? Swal.fire({
-          icon: "warning",
-          title: "Something went wrong...",
-          text: "Please try refreshing the page",
-        })
-      : null;
-  }
-
-  if (loading) {
-    return <p> {type === "team" ? "Channels" : "Chats"} loading...</p>;
-  }
-
   return (
-    <div>
-      {type === "team" ? "Channels" : "Recent Chats"}
-      {children}
+    <div className="team-channel-list">
+      {error && (
+        <Alert
+          message="Error"
+          description="Something went wrong. Please try refreshing the page."
+          type="error"
+          showIcon
+          className="error-alert"
+        />
+      )}
+
+      {loading && (
+        <div className="loading-container">
+          <Spin size="large" />
+          <p>{type === "team" ? "Loading Channels..." : "Loading Chats..."}</p>
+        </div>
+      )}
+
+      {!loading && !error && (
+        <div className="channel-list-content">
+          {/* {type === "team" ? <h2>Channels</h2> : ""} */}
+          {children}
+        </div>
+      )}
     </div>
   );
 }

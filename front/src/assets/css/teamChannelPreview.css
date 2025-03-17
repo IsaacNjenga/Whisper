@@ -4,13 +4,13 @@
   transition: all 0.3s ease-in-out;
   border-radius: 8px;
   padding: 1px;
-  background: #fff;
+  background: #ffffff54;
   border: 1px solid #f0f0f0;
 }
 
 .team-channel-preview:hover {
-  background: #f5f5f5;
-  border-color: #1890ff;
+  background: #f5f5f500;
+  border-color: #188fff72;
 }
 
 .direct-preview {
