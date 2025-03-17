@@ -57,7 +57,7 @@ function ChatSearch() {
   return (
     <div>
       <Search
-        placeholder="input search text"
+        placeholder="Search..."
         onSearch={onSearch}
         onChange={(e) => setQuery(e.target.value)}
         value={query}

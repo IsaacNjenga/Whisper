@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Tag, List, Alert, Empty, Card, Avatar } from "antd";
 import {
   PlusCircleOutlined,
@@ -6,13 +6,11 @@ import {
   CloseCircleOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { UserContext } from "../App";
 import { useChatContext } from "stream-chat-react";
 import "stream-chat-react/dist/css/v2/index.css";
 
 const UsersList = ({ selectedUsers, setSelectedUsers }) => {
   const { client } = useChatContext();
-  const { isMobile } = useContext(UserContext);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(false);
   const [listEmpty, setListEmpty] = useState(false);
@@ -80,7 +78,6 @@ const UsersList = ({ selectedUsers, setSelectedUsers }) => {
         background: "#fff",
       }}
     >
-      
       {/* Selected Users Tags */}
       {selectedUsers.length > 0 && (
         <div className="selected-users">
