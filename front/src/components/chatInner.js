@@ -9,6 +9,7 @@ import {
   useChannelStateContext,
   useChatContext,
 } from "stream-chat-react";
+import "../assets/css/chatInner.css"; 
 
 export const GiphyContext = React.createContext({});
 
@@ -37,7 +38,7 @@ const ChatInner = ({ setIsEditing }) => {
 
   return (
     <GiphyContext.Provider value={{ giphyState, setGiphyState }}>
-      <div style={{ display: "flex", width: "100%" }}>
+      <div className="chat-container">
         <Window>
           <TeamChannelHeader setIsEditing={setIsEditing} />
           <MessageList />
@@ -61,34 +62,25 @@ const TeamChannelHeader = ({ setIsEditing }) => {
 
     if (channel.type === "messaging") {
       return (
-        <div className="team-channel-header__name-wrapper">
+        <div className="channel-header">
           {members.map(({ user }, i) => (
-            <div key={i} className="team-channel-header__name-multi">
-              <Avatar
-                image={user.image}
-                name={user.fullName || user.id}
-                size={32}
-              />
-              <p className="team-channel-header__name user">
-                {user.fullName || user.id}
-              </p>
+            <div key={i} className="member-info">
+              <Avatar image={user.image} name={user.fullName || user.id} size={32} />
+              <p className="member-name">{user.fullName || user.id}</p>
             </div>
           ))}
-
           {additionalMembers > 0 && (
-            <p className="team-channel-header__name user">
-              and {additionalMembers} more
-            </p>
+            <p className="member-extra">+{additionalMembers} more</p>
           )}
         </div>
       );
     }
 
     return (
-      <div className="team-channel-header__channel-wrapper">
-        <p className="team-channel-header__name"># {channel.data.name}</p>
-        <span style={{ display: "flex" }} onClick={() => setIsEditing(true)}>
-          i
+      <div className="channel-info">
+        <p className="channel-name"># {channel.data.name}</p>
+        <span className="edit-channel" onClick={() => setIsEditing(true)}>
+          ℹ️
         </span>
       </div>
     );
@@ -96,17 +88,15 @@ const TeamChannelHeader = ({ setIsEditing }) => {
 
   const getWatcherText = (watchers) => {
     if (!watchers) return "No users online";
-    if (watchers === 1) return "1 user online";
-    return `${watchers} users online`;
+    if (watchers === 1) return "offline";
+    return `online`;
   };
 
   return (
-    <div className="team-channel-header__container">
+    <div className="header-container">
       <MessagingHeader />
-      <div className="team-channel-header__right">
-        <p className="team-channel-header__right-text">
-          {getWatcherText(watcher_count)}
-        </p>
+      <div className="online-status">
+        <p className="status-text">{getWatcherText(watcher_count)}</p>
       </div>
     </div>
   );

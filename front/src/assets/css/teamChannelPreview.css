@@ -1,0 +1,37 @@
+.team-channel-preview {
+  margin-bottom: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border-radius: 8px;
+  padding: 1px;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+}
+
+.team-channel-preview:hover {
+  background: #f5f5f5;
+  border-color: #1890ff;
+}
+
+.direct-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.direct-avatar {
+  border: 2px solid #1890ff;
+  transition: 0.3s ease-in-out;
+}
+
+.direct-username {
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+
+.channel-preview__item {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}

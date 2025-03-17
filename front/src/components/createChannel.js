@@ -25,9 +25,9 @@ const ChannelNameInput = ({ channelName = "", setChannelName }) => {
   );
 };
 
-function CreateChannel() {
+function CreateChannel({ createType }) {
   const { client, setActiveChannel } = useChatContext();
-  const { createType, setIsCreating, closeDrawer } = useContext(UserContext);
+  const { setIsCreating, closeDrawer } = useContext(UserContext);
   const [selectedUsers, setSelectedUsers] = useState([client.userID || ""]);
   const [channelName, setChannelName] = useState("");
   const [loading, setLoading] = useState(false);
@@ -38,31 +38,31 @@ function CreateChannel() {
       if (!createType || typeof createType !== "string") {
         throw new Error("Invalid channel type");
       }
-  
+
       // If it's a DM, use the recipient's name/ID as the channel name
       const finalChannelName =
         createType === "messaging"
           ? selectedUsers.find((id) => id !== client.userID) || "private-chat"
           : channelName;
-  
+
       if (!finalChannelName || typeof finalChannelName !== "string") {
         throw new Error("Invalid channel name");
       }
-  
+
       console.log("Creating channel with:", {
         createType,
         finalChannelName,
         selectedUsers,
       });
-  
+
       const newChannel = await client.channel(createType, finalChannelName, {
         name: finalChannelName,
         members: selectedUsers,
       });
-  
+
       await newChannel.watch();
       console.log("New Channel Created:", newChannel);
-  
+
       setChannelName("");
       setIsCreating(false);
       closeDrawer();
@@ -79,7 +79,6 @@ function CreateChannel() {
       setLoading(false);
     }
   };
-  
 
   if (loading) {
     <Alert message="Loading" showIcon />;

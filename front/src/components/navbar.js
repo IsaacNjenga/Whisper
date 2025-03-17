@@ -155,9 +155,8 @@ function Navbar() {
         {/* Main Content */}
         <Content
           style={{
-            padding: "30px 0px",
+            padding: "0px 0px",
             minHeight: "calc(100vh - 64px - 70px)",
-            background: "grey",
           }}
         >
           <Outlet />

@@ -1,12 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Avatar, Tag, List, Alert, Empty } from "antd";
+import { Tag, List, Alert, Empty, Card, Avatar } from "antd";
 import {
   PlusCircleOutlined,
   MinusCircleOutlined,
   CloseCircleOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { UserContext } from "../App";
 import { useChatContext } from "stream-chat-react";
+import "stream-chat-react/dist/css/v2/index.css";
 
 const UsersList = ({ selectedUsers, setSelectedUsers }) => {
   const { client } = useChatContext();
@@ -21,12 +23,10 @@ const UsersList = ({ selectedUsers, setSelectedUsers }) => {
       const updatedSelection = prev.some((u) => u === user.id)
         ? prev.filter((u) => u !== user.id)
         : [...prev, user.id]; // Store only user IDs
-  
-      console.log("Selected Users (IDs only):", updatedSelection);
+
       return updatedSelection;
     });
   };
-  
 
   useEffect(() => {
     const getUsers = async () => {
@@ -71,24 +71,26 @@ const UsersList = ({ selectedUsers, setSelectedUsers }) => {
   if (loading) return <Alert message="Loading" showIcon />;
 
   return (
-    <div
+    <Card
       style={{
-        width: isMobile ? 270 : 520,
-        padding: 15,
-        border: "1px solid #ddd",
+        width: "100%",
+        padding: 5,
         borderRadius: 8,
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+        background: "#fff",
       }}
     >
       {/* Selected Users Tags */}
       {selectedUsers?.length > 0 && (
-        <div style={{ marginBottom: 5 }}>
-          {selectedUsers?.map((user) => (
+        <div className="selected-users">
+          {selectedUsers.map((user) => (
             <Tag
               key={user.id}
               closable
               onClose={() => toggleUserSelection(user)}
               icon={<CloseCircleOutlined />}
               color="blue"
+              className="user-tag"
             >
               {user.name}
             </Tag>
@@ -98,29 +100,35 @@ const UsersList = ({ selectedUsers, setSelectedUsers }) => {
 
       {/* Users List */}
       <List
-        header={<div style={{ fontWeight: "bold" }}>Users</div>}
+        header={<div className="user-list-header">Available Users</div>}
         dataSource={users}
         renderItem={(user) => {
           const isSelected = selectedUsers.some((u) => u.id === user.id);
           return (
             <List.Item
               onClick={() => toggleUserSelection(user)}
-              style={{ cursor: "pointer" }}
+              className={`user-list-item ${isSelected ? "selected" : ""}`}
             >
-              <List.Item.Meta
-                avatar={<Avatar src={user.image ? user.image : null} />}
-                title={user.name}
+              <Avatar
+                image={user.image}
+                icon={<UserOutlined />}
+                size={32}
+                className="direct-avatar"
+                style={{
+                  marginRight: "5px",
+                }}
               />
+              <List.Item.Meta title={user?.fullName || user?.id} />
               {isSelected ? (
-                <MinusCircleOutlined style={{ color: "red" }} />
+                <MinusCircleOutlined style={{ color: "red", fontSize: 18 }} />
               ) : (
-                <PlusCircleOutlined style={{ color: "green" }} />
+                <PlusCircleOutlined style={{ color: "green", fontSize: 18 }} />
               )}
             </List.Item>
           );
         }}
       />
-    </div>
+    </Card>
   );
 };
 

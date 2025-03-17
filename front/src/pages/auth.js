@@ -45,8 +45,9 @@ function Auth() {
     try {
       const { username, avatarUrl, password, phoneNumber } = values;
 
-      const url = "https://whisper-server-xi.vercel.app/whisper";
+      const url = "http://localhost:3001/whisper";
       //http://localhost:3001/
+      //https://whisper-server-xi.vercel.app/
 
       const {
         data: { token, userId, hashedPassword, fullName },

@@ -1,13 +1,8 @@
 //adding a channel
-import React, { useContext } from "react";
+import React from "react";
 import Swal from "sweetalert2";
-import UserList from "./userListsTwo";
-import ChatContainer from "./chatContainer";
-import { UserContext } from "../App";
 
 function TeamChannelList({ children, error = false, loading, type }) {
-  const { isCreating, isEditing, setIsCreating, setIsEditing, createType } =
-    useContext(UserContext);
   if (error) {
     return type === "messages"
       ? Swal.fire({
@@ -24,19 +19,8 @@ function TeamChannelList({ children, error = false, loading, type }) {
 
   return (
     <div>
-      TeamChannelList
-      <br />
-      {type === "team" ? "Channels" : "Recent Messages"}
+      {type === "team" ? "Channels" : "Recent Chats"}
       {children}
-      {/* <UserList /> */}
-      Chat Container for messages
-      <ChatContainer
-        isCreating={isCreating}
-        setIsCreating={setIsCreating}
-        isEditing={isEditing}
-        setIsEditing={setIsEditing}
-        createType={createType}
-      />
     </div>
   );
 }

@@ -1,5 +1,10 @@
 import React from "react";
-import { Avatar, useChatContext } from "stream-chat-react";
+import { Avatar, Card, Typography } from "antd";
+import { useChatContext } from "stream-chat-react";
+import { UserOutlined } from "@ant-design/icons";
+import "../assets/css/teamChannelPreview.css";
+
+const { Text } = Typography;
 
 function TeamChannelPreview({
   channel,
@@ -8,42 +13,48 @@ function TeamChannelPreview({
   setIsEditing,
   setActiveChannel,
 }) {
-  //removed activeChannel
   const { client } = useChatContext();
 
   const ChannelPreview = () => (
-    <p className="channel-preview__item">
+    <Text strong className="channel-preview__item">
       # {channel?.data?.name || channel?.data?.id}
-    </p>
+    </Text>
   );
 
   const DirectPreview = () => {
     const members = Object.values(channel.state.members).filter(
       ({ user }) => user.id !== client.userID
     );
+
     return (
-      <div className="channel-preview__item single">
-        <Avatar
-          image={members[0]?.user?.image}
-          name={members[0]?.user?.fullName || members[0]?.user?.id}
-          size={24}
-        />
-        <p>{members[0]?.user?.fullName || members[0]?.user?.id}</p>
-      </div>
+      <>
+        <div className="direct-preview">
+          <Avatar
+            src={members[0]?.user?.image}
+            icon={<UserOutlined />}
+            size={32}
+            className="direct-avatar"
+          />
+          <Text className="direct-username">
+            {members[0]?.user?.fullName || members[0]?.user?.id}
+          </Text>
+        </div>
+      </>
     );
   };
 
   return (
-    <div
+    <Card
       onClick={() => {
         setIsCreating(false);
         setIsEditing(false);
         setActiveChannel(channel);
       }}
+      className="team-channel-preview"
+      hoverable
     >
-      {/* This page will now display the chats and recent messages */}
       {type === "team" ? <ChannelPreview /> : <DirectPreview />}
-    </div>
+    </Card>
   );
 }
 

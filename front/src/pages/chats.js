@@ -1,62 +1,19 @@
 import React, { useContext } from "react";
 import ChatsPreview from "../components/chatsPreview";
-import { Button, Drawer, FloatButton, Space } from "antd";
 import { UserContext } from "../App";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import CreateChannel from "../components/createChannel";
-
+import ChatContainer from "../components/chatContainer";
 function Chats() {
-  const {
-    setCreateType,
-    setIsCreating,
-    isMobile,
-    closeDrawer,
-    showDrawer,
-    openDrawer,
-    isCreating,
-  } = useContext(UserContext);
+  const { isMobile } = useContext(UserContext);
   return (
     <div>
-      <FloatButton
-        tooltip="Start a new conversation"
-        icon={<PlusCircleOutlined />}
-        type="primary"
-        style={{ insetInlineEnd: 24 }}
-        onClick={() => {
-          showDrawer();
-          setCreateType("messaging");
-          setIsCreating(true);
-        }}
-      />
-      <div>
-        <ChatsPreview />
+      <div style={{ display: "flex", flexDirection: "row", height: "auto" }}>
+        <div style={{ width: isMobile ? 340 : 400 }}>
+          <ChatsPreview />
+        </div>
+        <div style={{ flex: 1, background: "lightblue" }}>
+          <ChatContainer />
+        </div>
       </div>
-      {isCreating && (
-        <Drawer
-          title="Start a new conversation"
-          width={isMobile ? 350 : 600}
-          onClose={() => {
-            closeDrawer();
-            setIsCreating(false);
-            setCreateType("");
-          }}
-          open={openDrawer}
-          styles={{ body: { paddingBottom: 60 } }}
-          extra={
-            <Space>
-              <Button
-                onClick={closeDrawer}
-                type="primary"
-                style={{ background: "red" }}
-              >
-                Cancel
-              </Button>
-            </Space>
-          }
-        >
-          <CreateChannel />
-        </Drawer>
-      )}
     </div>
   );
 }

@@ -1,0 +1,15 @@
+.channel-container {
+  height: 75vh; /* Fixed height */
+  overflow-y: auto; /* Allow vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  border: 1px solid #ddd; /* Optional border */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #fff; /* Background color */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 10px; /* Padding inside the container */
+}
+
+.empty-state {
+  text-align: center; /* Center the empty state text */
+  color: #888; /* Lighter color for the empty state */
+}
