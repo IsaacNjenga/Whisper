@@ -9,7 +9,7 @@ import {
   useChannelStateContext,
   useChatContext,
 } from "stream-chat-react";
-import "../assets/css/chatInner.css"; 
+import "../assets/css/chatInner.css";
 
 export const GiphyContext = React.createContext({});
 
@@ -65,7 +65,11 @@ const TeamChannelHeader = ({ setIsEditing }) => {
         <div className="channel-header">
           {members.map(({ user }, i) => (
             <div key={i} className="member-info">
-              <Avatar image={user.image} name={user.fullName || user.id} size={32} />
+              <Avatar
+                image={user.image}
+                name={user.fullName || user.id}
+                size={32}
+              />
               <p className="member-name">{user.fullName || user.id}</p>
             </div>
           ))}

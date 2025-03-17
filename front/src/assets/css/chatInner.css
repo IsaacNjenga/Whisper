@@ -75,3 +75,14 @@
     font-weight: 500;
   }
   
+  .ant-watermark {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Moves watermark behind chat */
+    opacity: 0.2; /* Adjust visibility */
+    pointer-events: none; /* Prevent interactions */
+}
+

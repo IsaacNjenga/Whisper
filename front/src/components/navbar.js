@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Layout, Menu } from "antd";
+import { Layout, Menu,  } from "antd";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import {
   CommentOutlined,
@@ -8,21 +8,48 @@ import {
 } from "@ant-design/icons";
 import logo from "../assets/icons/chat-icon.png";
 import { UserContext } from "../App";
+import Cookies from "universal-cookie";
+import Swal from "sweetalert2";
 
 const { Header, Content, Footer } = Layout;
+const cookies = new Cookies();
 
 function Navbar() {
   const location = useLocation();
   const [current, setCurrent] = useState(location.pathname);
   const { isMobile, authToken } = useContext(UserContext);
 
+  const logout = () => {
+    Swal.fire({
+      icon: "warning",
+      text: "Are you sure you want to logout?",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        cookies.remove("token");
+        cookies.remove("userId");
+        cookies.remove("username");
+        cookies.remove("fullName");
+        cookies.remove("avatarUrl");
+        cookies.remove("hashedPassword");
+        cookies.remove("phoneNumber");
+
+        window.location.reload();
+      }
+    });
+  };
+
   const navItems = [
-    { label: "Chats", icon: CommentOutlined, path: "/chats" },
-    { label: "Channels", icon: TeamOutlined, path: "/" },
+    { key: 1, label: "Chats", icon: CommentOutlined, path: "/chats" },
+    { key: 2, label: "Channels", icon: TeamOutlined, path: "/" },
     {
+      key: 3,
       label: authToken ? "Logout" : "Login",
       icon: PoweroffOutlined,
-      path: "/logout",
+      onClick: logout,
     },
   ];
 
@@ -110,45 +137,51 @@ function Navbar() {
                   "linear-gradient(to left, #350d4b 0%, #e5001a 100%)",
                 color: "white",
               }}
-            >
-              {navItems.map((item) => (
-                <Menu.Item
-                  key={item.path}
-                  icon={
-                    <item.icon
-                      style={{
-                        fontSize: "1.55rem",
-                        marginBottom: "-20px",
-                        marginTop: "14px",
-                      }}
-                    />
-                  }
-                  style={{
-                    borderRadius: "15px",
-                    color: "white",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "100px",
-                    textAlign: "center",
-                    gap: "2px",
-                    //flex:1
-                  }}
-                >
+              items={navItems.map(({ key, icon, label, path, onClick }) => ({
+                key: path || key,
+                icon: React.createElement(icon, {
+                  style: {
+                    fontSize: "1.55rem",
+                    marginBottom: "-20px",
+                    marginTop: "14px",
+                  },
+                }),
+                label: path ? (
                   <Link
-                    to={item.path}
+                    to={path}
                     style={{
                       color: "white",
                       textDecoration: "none",
                       fontSize: "1rem",
                     }}
                   >
-                    {item.label}
+                    <span
+                      style={{
+                        color: "white",
+                        textDecoration: "none",
+                        fontSize: "1rem",
+                      }}
+                    >
+                      {label}
+                    </span>
                   </Link>
-                </Menu.Item>
-              ))}
-            </Menu>
+                ) : (
+                  label
+                ),
+                onClick,
+                style: {
+                  borderRadius: "15px",
+                  color: "white",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100px",
+                  textAlign: "center",
+                  gap: "2px",
+                },
+              }))}
+            ></Menu>
           </div>
         </Header>
 
