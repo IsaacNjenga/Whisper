@@ -11,6 +11,7 @@ import {
 } from "@ant-design/icons";
 import CreateChannel from "./createChannel";
 import "../assets/css/chatsPreview.css";
+import ChatSearch from "./chatSearch";
 
 const customChatMessagingFilter = (channels) => {
   return channels.filter((channel) => channel.type === "messaging");
@@ -83,7 +84,12 @@ const ChatsPreview = () => {
       ),
       icon: <ClockCircleOutlined />,
     },
-    { label: "Search", key: 3, children: "search", icon: <SearchOutlined /> },
+    {
+      label: "Search",
+      key: 3,
+      children: <ChatSearch />,
+      icon: <SearchOutlined />,
+    },
   ];
 
   return (

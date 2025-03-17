@@ -1,10 +1,9 @@
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { Button, Card, Divider, Form, Input, Watermark } from "antd";
+import { Button, Card, Divider, Form, Input } from "antd";
 import axios from "axios";
 import React, { useState } from "react";
 import Cookies from "universal-cookie";
 import "../assets/css/auth.css";
-// import WhisperImage from "../assets/icons/chat-icon.png";
 
 const cookies = new Cookies();
 const avatarForNow =
@@ -93,7 +92,7 @@ function Auth() {
             padding: 0,
             color: "white",
             height: "auto",
-            width:'100%'
+            width: "100%",
           }}
           className="card"
         >

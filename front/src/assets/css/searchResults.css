@@ -1,0 +1,54 @@
+.channel-search__results {
+  padding: 20px; /* Add padding around the results container */
+  background-color: #ffffff; /* White background for the results */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  max-height: 400px; /* Set a max height for the results container */
+  overflow-y: auto; /* Allow vertical scrolling if content overflows */
+}
+
+.channel-search__results-header {
+  font-size: 1.2rem; /* Larger font size for headers */
+  font-weight: bold; /* Bold text for emphasis */
+  margin-bottom: 10px; /* Space below the header */
+  color: #333; /* Darker text color */
+}
+
+.channel-search__result-container {
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Center items vertically */
+  padding: 10px; /* Padding inside each result */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.channel-search__result-container:hover {
+  background-color: #f0f0f0; /* Light gray background on hover */
+}
+
+.channel-search__result-container__focused {
+  background-color: #e6f7ff; /* Light blue background for focused item */
+  border-left: 4px solid #1890ff; /* Blue left border for focused item */
+}
+
+.result-hashtag {
+  font-size: 1.5rem; /* Larger font size for hashtag */
+  margin-right: 10px; /* Space between hashtag and channel name */
+  color: #1890ff; /* Blue color for hashtag */
+}
+
+.channel-search__result-user {
+  display: flex; /* Use flexbox for user layout */
+  align-items: center; /* Center items vertically */
+}
+
+.channel-search__result-text {
+  margin-left: 10px; /* Space between avatar and text */
+  font-size: 1rem; /* Standard font size for text */
+  color: #333; /* Darker text color */
+}
+
+.channel-search__results-header i {
+  font-style: italic; /* Italic style for loading and empty states */
+  color: #888; /* Lighter color for loading/empty text */
+}
