@@ -342,7 +342,13 @@ function Auth() {
                   width: "55%",
                 }}
               >
-                {isSignUp ? "Sign Up" : "Sign In"}
+                {loading
+                  ? isSignUp
+                    ? "Signing Up"
+                    : "Signing In"
+                  : isSignUp
+                  ? "Sign Up"
+                  : "Sign In"}
               </Button>
             </Form.Item>
           </Form>
