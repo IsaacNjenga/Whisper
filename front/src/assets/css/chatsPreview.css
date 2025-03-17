@@ -1,0 +1,42 @@
+/* Chats Preview Container */
+.chats-preview-container {
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tabs */
+.chats-tabs .ant-tabs-nav {
+  margin-bottom: 10px;
+  border-bottom: 2px solid #ddd;
+}
+
+.chats-tabs .ant-tabs-tab {
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 15px;
+  transition: 0.3s;
+}
+
+.chats-tabs .ant-tabs-tab:hover {
+  color: #1890ff;
+}
+
+.chats-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #1678ff !important;
+  font-weight: bold;
+}
+
+/* Custom styling for tab labels */
+.tab-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Content styling */
+.chats-tabs .ant-tabs-content {
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 5px;
+}

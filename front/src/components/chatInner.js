@@ -91,9 +91,11 @@ const TeamChannelHeader = ({ setIsEditing }) => {
   };
 
   const getWatcherText = (watchers) => {
-    if (!watchers) return "No users online";
-    if (watchers === 1) return "offline";
-    return `online`;
+    if (!watchers) return <p style={{ color: "grey" }}>Offline</p>;
+    if (watchers === 1) return <p style={{ color: "grey" }}>Offline</p>;
+    if (watcher_count > 2)
+      return <p style={{ color: "green" }}>{watcher_count} online</p>;
+    return <p style={{ color: "green" }}>Online</p>;
   };
 
   return (

@@ -6,6 +6,7 @@ import TeamChannelPreview from "./teamChannelPreview";
 import { Tabs } from "antd";
 import { ClockCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import CreateChannel from "./createChannel";
+import "../assets/css/chatsPreview.css";
 
 const customChatMessagingFilter = (channels) => {
   return channels.filter((channel) => channel.type === "messaging");
@@ -54,8 +55,12 @@ const ChatsPreview = () => {
 
   const tabItems = [
     {
-      label: "New",
-      key: 1,
+      label: (
+        <span className="tab-label">
+          <PlusCircleOutlined /> New
+        </span>
+      ),
+      key: "1",
       children: (
         <CreateChannel
           createType={() => {
@@ -63,11 +68,14 @@ const ChatsPreview = () => {
           }}
         />
       ),
-      icon: <PlusCircleOutlined />,
     },
     {
-      label: "Recent Chats",
-      key: 2,
+      label: (
+        <span className="tab-label">
+          <ClockCircleOutlined /> Recent Chats
+        </span>
+      ),
+      key: "2",
       children: (
         <RecentList
           isCreating={isCreating}
@@ -76,19 +84,12 @@ const ChatsPreview = () => {
           setIsEditing={setIsEditing}
         />
       ),
-      icon: <ClockCircleOutlined />,
     },
-    // {
-    //   label: "Sth else",
-    //   key: 3,
-    //   children: "To Do",
-    //   disabled: true,
-    // },
   ];
 
   return (
-    <div>
-      <Tabs defaultActiveKey='2' items={tabItems} />
+    <div className="chats-preview-container">
+      <Tabs defaultActiveKey="2" className="chats-tabs" items={tabItems} />
     </div>
   );
 };
