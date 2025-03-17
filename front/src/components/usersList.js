@@ -80,21 +80,25 @@ const UsersList = ({ selectedUsers, setSelectedUsers }) => {
         background: "#fff",
       }}
     >
+      
       {/* Selected Users Tags */}
-      {selectedUsers?.length > 0 && (
+      {selectedUsers.length > 0 && (
         <div className="selected-users">
-          {selectedUsers.map((user) => (
-            <Tag
-              key={user.id}
-              closable
-              onClose={() => toggleUserSelection(user)}
-              icon={<CloseCircleOutlined />}
-              color="blue"
-              className="user-tag"
-            >
-              {user.name}
-            </Tag>
-          ))}
+          {selectedUsers.map((userId) => {
+            const user = users.find((u) => u.id === userId);
+            return user ? (
+              <Tag
+                key={user.id}
+                closable
+                onClose={() => toggleUserSelection(user)}
+                icon={<CloseCircleOutlined />}
+                color="blue"
+                className="user-tag"
+              >
+                {user.fullName ? user.fullName : "User"}{" "}
+              </Tag>
+            ) : null;
+          })}
         </div>
       )}
 

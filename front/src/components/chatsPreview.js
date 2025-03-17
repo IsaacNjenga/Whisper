@@ -4,7 +4,7 @@ import { ChannelList, useChatContext } from "stream-chat-react";
 import TeamChannelList from "./teamChannelList";
 import TeamChannelPreview from "./teamChannelPreview";
 import { Tabs } from "antd";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { ClockCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import CreateChannel from "./createChannel";
 
 const customChatMessagingFilter = (channels) => {
@@ -49,16 +49,12 @@ const RecentList = ({
 };
 
 const ChatsPreview = () => {
-  const {  isCreating, setIsCreating, setCreateType, setIsEditing } =
+  const { isCreating, setIsCreating, setCreateType, setIsEditing } =
     useContext(UserContext);
 
   const tabItems = [
     {
-      label: (
-        <p>
-          <PlusCircleOutlined /> New
-        </p>
-      ),
+      label: "New",
       key: 1,
       children: (
         <CreateChannel
@@ -67,6 +63,7 @@ const ChatsPreview = () => {
           }}
         />
       ),
+      icon: <PlusCircleOutlined />,
     },
     {
       label: "Recent Chats",
@@ -79,18 +76,19 @@ const ChatsPreview = () => {
           setIsEditing={setIsEditing}
         />
       ),
+      icon: <ClockCircleOutlined />,
     },
-    {
-      label: "Sth else",
-      key: 3,
-      children: "To Do",
-      disabled: true,
-    },
+    // {
+    //   label: "Sth else",
+    //   key: 3,
+    //   children: "To Do",
+    //   disabled: true,
+    // },
   ];
 
   return (
     <div>
-      <Tabs defaultActiveKey="2" items={tabItems} />
+      <Tabs defaultActiveKey='2' items={tabItems} />
     </div>
   );
 };

@@ -27,7 +27,7 @@ const ChannelNameInput = ({ channelName = "", setChannelName }) => {
 
 function CreateChannel({ createType }) {
   const { client, setActiveChannel } = useChatContext();
-  const { setIsCreating, closeDrawer } = useContext(UserContext);
+  const { setIsCreating } = useContext(UserContext);
   const [selectedUsers, setSelectedUsers] = useState([client.userID || ""]);
   const [channelName, setChannelName] = useState("");
   const [loading, setLoading] = useState(false);
@@ -49,23 +49,15 @@ function CreateChannel({ createType }) {
         throw new Error("Invalid channel name");
       }
 
-      console.log("Creating channel with:", {
-        createType,
-        finalChannelName,
-        selectedUsers,
-      });
-
       const newChannel = await client.channel(createType, finalChannelName, {
         name: finalChannelName,
         members: selectedUsers,
       });
 
       await newChannel.watch();
-      console.log("New Channel Created:", newChannel);
 
       setChannelName("");
       setIsCreating(false);
-      closeDrawer();
       setSelectedUsers([client.userID]);
       setActiveChannel(newChannel);
     } catch (error) {
