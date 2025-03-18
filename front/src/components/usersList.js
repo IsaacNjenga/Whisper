@@ -7,7 +7,6 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { useChatContext } from "stream-chat-react";
-import "stream-chat-react/dist/css/v2/index.css";
 
 const UsersList = ({ selectedUsers, setSelectedUsers }) => {
   const { client } = useChatContext();
@@ -15,16 +14,6 @@ const UsersList = ({ selectedUsers, setSelectedUsers }) => {
   const [error, setError] = useState(false);
   const [listEmpty, setListEmpty] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const toggleUserSelection = (user) => {
-    setSelectedUsers((prev) => {
-      const updatedSelection = prev.some((u) => u === user.id)
-        ? prev.filter((u) => u !== user.id)
-        : [...prev, user.id]; // Store only user IDs
-
-      return updatedSelection;
-    });
-  };
 
   useEffect(() => {
     const getUsers = async () => {
@@ -34,7 +23,7 @@ const UsersList = ({ selectedUsers, setSelectedUsers }) => {
         const response = await client.queryUsers(
           { id: { $ne: client.userID } },
           { id: 1 },
-          { limit: 8 }
+          { limit: 20 }
         );
 
         if (response.users.length) {
@@ -49,7 +38,15 @@ const UsersList = ({ selectedUsers, setSelectedUsers }) => {
     };
 
     if (client) getUsers();
-  }, []);
+  }, [client]);
+
+  const toggleUserSelection = (user) => {
+    setSelectedUsers((prev) => {
+      return prev.includes(user.id)
+        ? prev.filter((id) => id !== user.id)
+        : [...prev, user.id];
+    });
+  };
 
   if (error) {
     return (
@@ -66,7 +63,7 @@ const UsersList = ({ selectedUsers, setSelectedUsers }) => {
     return <Empty description="No users found" />;
   }
 
-  if (loading) return <Alert message="Loading" showIcon />;
+  if (loading) return <Alert message="Loading..." showIcon />;
 
   return (
     <Card
@@ -104,20 +101,23 @@ const UsersList = ({ selectedUsers, setSelectedUsers }) => {
         header={<div className="user-list-header">Available Users</div>}
         dataSource={users}
         renderItem={(user) => {
-          const isSelected = selectedUsers.some((u) => u.id === user.id);
+          const isSelected = selectedUsers.includes(user.id);
           return (
             <List.Item
               onClick={() => toggleUserSelection(user)}
               className={`user-list-item ${isSelected ? "selected" : ""}`}
+              style={{
+                cursor: "pointer",
+                padding: "10px",
+                backgroundColor: isSelected ? "#e6f7ff" : "white",
+              }}
             >
               <Avatar
-                image={user.image}
+                src={user.image}
                 icon={<UserOutlined />}
                 size={32}
                 className="direct-avatar"
-                style={{
-                  marginRight: "5px",
-                }}
+                style={{ marginRight: "10px" }}
               />
               <List.Item.Meta title={user?.fullName || user?.id} />
               {isSelected ? (

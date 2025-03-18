@@ -10,7 +10,11 @@ import {
   useChatContext,
 } from "stream-chat-react";
 import "../assets/css/chatInner.css";
-import { AntDesignOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  AntDesignOutlined,
+  InfoCircleOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { Avatar, Divider, Tooltip } from "antd";
 
 export const GiphyContext = React.createContext({});
@@ -43,7 +47,6 @@ const ChatInner = ({ setIsEditing }) => {
         <Window>
           <TeamChannelHeader setIsEditing={setIsEditing} />
           <MessageList />
-
           <MessageInput overrideSubmitHandler={overrideSubmitHandler} />
         </Window>
         <Thread />
@@ -102,9 +105,9 @@ const TeamChannelHeader = ({ setIsEditing }) => {
 
     return (
       <div className="channel-info">
-        <p className="channel-name">#{channel.data.name}</p>
+        <p className="channel-name"># {channel.data.name}</p>
         <span className="edit-channel" onClick={() => setIsEditing(true)}>
-          ℹ
+          <InfoCircleOutlined />
         </span>
         <div>
           <Avatar.Group

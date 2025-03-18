@@ -12,6 +12,7 @@ function ChatContainer({ isEditing, setIsEditing }) {
   const { channel } = useChatContext();
   const [forceUpdate, setForceUpdate] = useState(false);
 
+  //console.log(type);
   useEffect(() => {
     if (channel) setForceUpdate((prev) => !prev);
   }, [channel]);

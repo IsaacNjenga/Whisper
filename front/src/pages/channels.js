@@ -16,7 +16,7 @@ function Channels() {
           <ChannelsPreview />
         </aside>
         <main className="chats-main">
-          <ChatContainer />
+          <ChatContainer type="team" />
         </main>
       </div>
     </div>

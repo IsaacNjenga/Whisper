@@ -20,7 +20,7 @@ function Chats() {
 
         {/* Main Chat Container */}
         <main className="chats-main">
-          <ChatContainer />
+          <ChatContainer type="messaging" />
         </main>
       </div>
     </div>

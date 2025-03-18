@@ -7,7 +7,6 @@ import { useChatContext } from "stream-chat-react";
 
 const ChannelNameInput = ({ channelName = "", setChannelName }) => {
   const [form] = Form.useForm();
-
   // const handleChange = (name, value) => {
   //   setChannelName((prev) => ({ ...prev, [name]: value }));
   // };
