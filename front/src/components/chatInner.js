@@ -12,6 +12,7 @@ import {
 import "../assets/css/chatInner.css";
 import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Tooltip } from "antd";
+import { formatDistanceToNow } from "date-fns";
 
 export const GiphyContext = React.createContext({});
 
@@ -79,6 +80,10 @@ const TeamChannelHeader = ({ setIsEditing }) => {
     );
     const additionalMembers = members.length - 3;
 
+    const user = members[0]?.user;
+    const isOnline = user?.online;
+    const lastActive = user?.last_active ? new Date(user.last_active) : null;
+
     if (channel.type === "messaging") {
       return (
         <div className="channel-header">
@@ -88,6 +93,9 @@ const TeamChannelHeader = ({ setIsEditing }) => {
                 image={user.image}
                 name={user.fullName || user.id}
                 size={32}
+                style={{
+                  border: isOnline ? "2px solid green" : "2px solid gray",
+                }}
               />
               <p className="member-name">{user.fullName || user.id}</p>
             </div>
@@ -95,6 +103,16 @@ const TeamChannelHeader = ({ setIsEditing }) => {
           {additionalMembers > 0 && (
             <p className="member-extra">+{additionalMembers} more</p>
           )}
+          <p style={{ fontSize: "0.8rem", color: "#666" }}>
+            {" "}
+            {isOnline
+              ? ""
+              : lastActive
+              ? `Active ${formatDistanceToNow(lastActive, {
+                  addSuffix: true,
+                })}`
+              : "Offline"}
+          </p>
         </div>
       );
     }
