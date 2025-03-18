@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Card, Typography } from "antd";
+import { Avatar, Badge, Card, Typography } from "antd";
 import { useChatContext } from "stream-chat-react";
 import { UserOutlined } from "@ant-design/icons";
 import "../assets/css/teamChannelPreview.css";
@@ -22,48 +22,53 @@ function TeamChannelPreview({
     </Text>
   );
 
-  const DirectPreview = () => {
+  const DirectPreview = ({ channel, client }) => {
     const members = Object.values(channel.state.members).filter(
-      ({ user }) => user.id !== client.userID
+      ({ user }) => user?.id !== client.userID
     );
 
-    console.log(members);
     const user = members[0]?.user;
     const lastMessage =
       channel.state.messages[channel.state.messages.length - 1];
 
+    // Get last read time of recipient
+    const recipientReadTime = channel.state.read[user?.id]?.last_read;
+    const isUnread =
+      lastMessage && recipientReadTime
+        ? new Date(lastMessage.created_at) > new Date(recipientReadTime)
+        : false;
+
     return (
-      <>
-        <div className="direct-preview">
-          <Avatar
-            src={user?.image}
-            icon={<UserOutlined />}
-            size={32}
-            className="direct-avatar"
-          />
-          <div className="direct-info">
-            <Text className="direct-username">
-              {user?.fullName || user?.id}
+      <div className="direct-preview">
+        <Avatar
+          src={user?.image}
+          icon={<UserOutlined />}
+          size={50}
+          className="direct-avatar"
+        />
+        <div className="direct-info">
+          <Text className="direct-username">{user?.fullName || user?.id}</Text>
+          <div className="direct-message-container">
+            <Text
+              className={`direct-message ${isUnread ? "unread-message" : ""}`}
+            >
+              {lastMessage
+                ? `${lastMessage.user.id === client.userID ? "You: " : ""}${
+                    lastMessage.text || "Sent an attachment"
+                  }`
+                : "No messages yet"}
             </Text>
-            <div className="direct-message-container">
-              <Text className="direct-message">
-                {lastMessage
-                  ? `${lastMessage.user.id === client.userID ? "You: " : ""}${
-                      lastMessage.text || "Sent an attachment"
-                    }`
-                  : "No messages yet"}
+            {lastMessage?.created_at && (
+              <Text className="message-time">
+                {formatDistanceToNow(new Date(lastMessage.created_at), {
+                  addSuffix: true,
+                })}
               </Text>
-              {lastMessage?.created_at && (
-                <Text className="message-time">
-                  {formatDistanceToNow(new Date(lastMessage.created_at), {
-                    addSuffix: true,
-                  })}
-                </Text>
-              )}
-            </div>
+            )}
           </div>
         </div>
-      </>
+        {isUnread && <Badge color="green" className="unread-badge" />}
+      </div>
     );
   };
 
@@ -77,7 +82,11 @@ function TeamChannelPreview({
       className="team-channel-preview"
       hoverable
     >
-      {type === "team" ? <ChannelPreview /> : <DirectPreview />}
+      {type === "team" ? (
+        <ChannelPreview />
+      ) : (
+        <DirectPreview channel={channel} client={client} />
+      )}
     </Card>
   );
 }

@@ -10,7 +10,8 @@
 .header-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;  padding: 10px;
+  align-items: center;
+  padding: 10px;
   border-bottom: 1px solid #ddd;
   border-radius: 12px;
   background-color: #faf8f8;
@@ -26,13 +27,25 @@
 .member-info {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
+}
+
+.member-details {
+  display: flex;
+  flex-direction: column; /* Stack name and status vertically */
 }
 
 .member-name {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: #333;
+  margin-bottom: 0;
+}
+
+.member-status {
+  font-size: 10px; /* Adjust font size for status */
+  color: #666; /* Use a lighter color for status */
+  margin-top: 0;
 }
 
 .member-extra {
@@ -75,34 +88,18 @@
   font-weight: 500;
 }
 
-  .online-text {
-    color: green;
-    font-weight: bold;
-  }
-  
-  .offline-text {
-    color: grey;
-    font-weight: bold;
-  }
+.online-text {
+  color: green;
+  font-weight: bold;
+}
 
-  .message-input-container {
-    display: flex;
-    align-items: center;
-    position: relative;
-  }
-  
-  .emoji-button {
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    margin-left: 8px;
-  }
-  
-  .emoji-picker {
-    position: absolute;
-    bottom: 50px;
-    right: 10px;
-    z-index: 1000;
-  }
-  
+.offline-text {
+  color: grey;
+  font-weight: bold;
+}
+
+.message-input-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}

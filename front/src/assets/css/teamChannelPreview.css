@@ -4,7 +4,7 @@
   transition: all 0.3s ease-in-out;
   border-radius: 8px;
   padding: 1px;
-  background: #ffffff54;
+  background: #ffffff26;
   border: 1px solid #f0f0f0;
 }
 
@@ -16,12 +16,12 @@
 .direct-preview {
   display: flex;
   align-items: flex-start; /* Align items to the start */
-  gap: 10px;
-  padding: 2px; /* Add some padding for better spacing */
+  gap: 5px;
+  padding: 1px; /* Add some padding for better spacing */
 }
 
 .direct-avatar {
-  border: 2px solid #1890ff;
+  border: 1px solid #188fff71;
   transition: 0.3s ease-in-out;
 }
 
@@ -41,7 +41,7 @@
   display: flex;
   justify-content: space-between; /* Space between message and time */
   align-items: center; /* Center align vertically */
-  font-size: 0.9rem; /* Adjust font size */
+  font-size: 0.8rem; /* Adjust font size */
   color: #666;
 }
 
@@ -53,4 +53,17 @@
   font-size: 0.8rem;
   color: #aaa;
   margin-left: 10px; /* Add some space between message and time */
+}
+
+.unread-message {
+  font-weight: bold;
+  color: #1890ff;
+}
+
+.unread-badge {
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 0, 0, 0);
+  border-radius: 50%;
+  margin-left: -15px;
 }

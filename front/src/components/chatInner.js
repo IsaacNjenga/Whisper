@@ -79,11 +79,11 @@ const TeamChannelHeader = ({ setIsEditing }) => {
       ({ user }) => user.id !== client.userID
     );
     const additionalMembers = members.length - 3;
-
+  
     const user = members[0]?.user;
     const isOnline = user?.online;
     const lastActive = user?.last_active ? new Date(user.last_active) : null;
-
+  
     if (channel.type === "messaging") {
       return (
         <div className="channel-header">
@@ -92,31 +92,32 @@ const TeamChannelHeader = ({ setIsEditing }) => {
               <Avatar
                 image={user.image}
                 name={user.fullName || user.id}
-                size={32}
+                size={45}
                 style={{
                   border: isOnline ? "2px solid green" : "2px solid gray",
                 }}
               />
-              <p className="member-name">{user.fullName || user.id}</p>
+              <div className="member-details">
+                <p className="member-name">{user.fullName || user.id}</p>
+                <p className="member-status">
+                  {isOnline
+                    ? "Online"
+                    : lastActive
+                    ? `Active ${formatDistanceToNow(lastActive, {
+                        addSuffix: true,
+                      })}`
+                    : "Offline"}
+                </p>
+              </div>
             </div>
           ))}
           {additionalMembers > 0 && (
             <p className="member-extra">+{additionalMembers} more</p>
           )}
-          <p style={{ fontSize: "0.8rem", color: "#666" }}>
-            {" "}
-            {isOnline
-              ? ""
-              : lastActive
-              ? `Active ${formatDistanceToNow(lastActive, {
-                  addSuffix: true,
-                })}`
-              : "Offline"}
-          </p>
         </div>
       );
     }
-
+  
     return (
       <div className="channel-info">
         <p className="channel-name"># {channel.data.name}</p>
@@ -142,7 +143,7 @@ const TeamChannelHeader = ({ setIsEditing }) => {
               return (
                 <Tooltip
                   key={user.id || index}
-                  title={user.name || "User"}
+                  title={user.name || "User "}
                   placement="top"
                 >
                   <Avatar
@@ -160,7 +161,6 @@ const TeamChannelHeader = ({ setIsEditing }) => {
       </div>
     );
   };
-
   const getWatcherText = () => {
     if (!watcherCount && channel.type === "messaging")
       return <p className="offline-text">Offline</p>;

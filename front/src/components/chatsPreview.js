@@ -59,7 +59,7 @@ const ChatsPreview = () => {
     useContext(UserContext);
 
   useEffect(() => {
-    setCreateType("message");
+    setCreateType("messaging");
   });
 
   const tabItems = [
