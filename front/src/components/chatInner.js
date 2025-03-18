@@ -5,11 +5,13 @@ import {
   Thread,
   Window,
   useChannelActionContext,
-  Avatar,
+  //Avatar,
   useChannelStateContext,
   useChatContext,
 } from "stream-chat-react";
 import "../assets/css/chatInner.css";
+import { AntDesignOutlined, UserOutlined } from "@ant-design/icons";
+import { Avatar, Divider, Tooltip } from "antd";
 
 export const GiphyContext = React.createContext({});
 
@@ -73,7 +75,7 @@ const TeamChannelHeader = ({ setIsEditing }) => {
   }, [channel]);
 
   const MessagingHeader = () => {
-    const members = Object.values(channel.state.members).filter(
+    const members = Object.values(channel?.state?.members).filter(
       ({ user }) => user.id !== client.userID
     );
     const additionalMembers = members.length - 3;
@@ -100,20 +102,52 @@ const TeamChannelHeader = ({ setIsEditing }) => {
 
     return (
       <div className="channel-info">
-        <p className="channel-name"># {channel.data.name}</p>
+        <p className="channel-name">#{channel.data.name}</p>
         <span className="edit-channel" onClick={() => setIsEditing(true)}>
-          ℹ️
+          ℹ
         </span>
+        <div>
+          <Avatar.Group
+            max={channel?._data?.members?.length || 1}
+            style={{
+              color: "#f56a00",
+              backgroundColor: "#fde3cf",
+              borderRadius: "12px",
+            }}
+          >
+            {members.map((member, index) => {
+              const user = member.user || {};
+              return (
+                <Tooltip
+                  key={user.id || index}
+                  title={user.name || "User"}
+                  placement="top"
+                >
+                  <Avatar
+                    src={
+                      user.image ||
+                      `https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`
+                    }
+                    icon={!user.image && <UserOutlined />}
+                  />
+                </Tooltip>
+              );
+            })}
+          </Avatar.Group>
+        </div>
       </div>
     );
   };
 
   const getWatcherText = () => {
-    if (!watcherCount) return <p className="offline-text">Offline</p>;
-    if (watcherCount === 1) return <p className="offline-text">offline</p>;
-    if (watcherCount > 2)
+    if (!watcherCount && channel.type === "messaging")
+      return <p className="offline-text">Offline</p>;
+    if (watcherCount === 1 && channel.type === "messaging")
+      return <p className="offline-text">offline</p>;
+    if (watcherCount > 1 && channel.type === "messaging")
+      return <p className="online-text">online</p>;
+    if (channel.type === "team")
       return <p className="online-text">{watcherCount} online</p>;
-    return <p className="online-text">online</p>;
   };
 
   return (

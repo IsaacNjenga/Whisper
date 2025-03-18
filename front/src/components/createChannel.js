@@ -8,15 +8,19 @@ import { useChatContext } from "stream-chat-react";
 const ChannelNameInput = ({ channelName = "", setChannelName }) => {
   const [form] = Form.useForm();
 
-  const handleChange = (name, value) => {
-    setChannelName((prev) => ({ ...prev, [name]: value }));
-  };
+  // const handleChange = (name, value) => {
+  //   setChannelName((prev) => ({ ...prev, [name]: value }));
+  // };
 
   return (
     <Form layout="vertical" form={form}>
-      <Form.Item label="Channel Name" name="channelName">
+      <Form.Item
+        label="Channel Name"
+        name="channelName"
+        rules={[{ required: true, message: "This field is required" }]}
+      >
         <Input
-          onChange={(e) => handleChange("channelName", e.target.value)}
+          onChange={(e) => setChannelName(e.target.value)}
           value={channelName}
         />
       </Form.Item>
@@ -39,11 +43,12 @@ function CreateChannel({ createType }) {
         throw new Error("Invalid channel type");
       }
 
-      // If it's a DM, use the recipient's name/ID as the channel name
       const finalChannelName =
         createType === "messaging"
           ? selectedUsers.find((id) => id !== client.userID) || "private-chat"
           : channelName;
+
+      console.log("finalChannelName", finalChannelName);
 
       if (!finalChannelName || typeof finalChannelName !== "string") {
         throw new Error("Invalid channel name");
@@ -94,8 +99,6 @@ function CreateChannel({ createType }) {
         disabled={selectedUsers.length === 0 ? true : false}
         style={{
           margin: "10px 0px",
-          display: "flex",
-          justifyContent: "right",
         }}
       >
         {createType === "team" ? "Create Channel" : "Message"}

@@ -1,59 +1,98 @@
-import { Divider } from "antd";
-import React from "react";
-import { Avatar } from "stream-chat-react";
+import React, { useContext, useEffect } from "react";
+import { UserContext } from "../App";
+import { ChannelList, useChatContext } from "stream-chat-react";
+import TeamChannelList from "./teamChannelList";
+import TeamChannelPreview from "./teamChannelPreview";
+import { Tabs } from "antd";
+import {
+  PlusCircleOutlined,
+  SearchOutlined,
+  TeamOutlined,
+} from "@ant-design/icons";
+import CreateChannel from "./createChannel";
+import "../assets/css/chatsPreview.css";
+import ChatSearch from "./chatSearch";
 
+const customChatMessagingFilter = (channels) => {
+  return channels.filter((channel) => channel.type === "team");
+};
+
+const RecentChannels = ({
+  isCreating,
+  setIsCreating,
+  setCreateType,
+  setIsEditing,
+}) => {
+  const { client } = useChatContext();
+  const filters = { members: { $in: [client.userID] } };
+  return (
+    <ChannelList
+      filters={filters}
+      channelRenderFilterFn={customChatMessagingFilter}
+      List={(listProps) => (
+        <TeamChannelList
+          {...listProps}
+          type="team"
+          isCreating={isCreating}
+          setIsCreating={setIsCreating}
+          setCreateType={setCreateType}
+          setIsEditing={setIsEditing}
+        />
+      )}
+      Preview={(previewProps) => (
+        <TeamChannelPreview
+          {...previewProps}
+          type="team"
+          isCreating={isCreating}
+          setIsCreating={setIsCreating}
+          setCreateType={setCreateType}
+          setIsEditing={setIsEditing}
+        />
+      )}
+    />
+  );
+};
 function ChannelsPreview() {
-  const randomImage =
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeWKMZijQi3VjI-waHYuO2OJnvWFFefcS1lw&s";
+  const { isCreating, setIsCreating, setCreateType, setIsEditing, createType } =
+    useContext(UserContext);
 
-  const channels = [
-    { name: "Group 1" },
-    { name: "Group 2" },
-    { name: "Group 3" },
+  useEffect(() => {
+    setCreateType("team");
+  }, []);
+
+  const tabItems = [
+    {
+      label: "New",
+      key: "1",
+      children: <CreateChannel createType={createType} />,
+      icon: <PlusCircleOutlined />,
+    },
+    {
+      label: "Channels",
+      key: "2",
+      children: (
+        <RecentChannels
+          isCreating={isCreating}
+          setIsCreating={setIsCreating}
+          setCreateType={setCreateType}
+          setIsEditing={setIsEditing}
+        />
+      ),
+      icon: <TeamOutlined />,
+    },
+    {
+      label: "Search",
+      key: 3,
+      children: <ChatSearch />,
+      icon: <SearchOutlined />,
+    },
   ];
-  const ChannelView = () => (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      {channels.map((channel) => (
-        <>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              padding: "0px 10px",
-              cursor: "pointer",
-            }}
-          >
-            {" "}
-            <div
-              style={{
-                width: "55px",
-                height: "55px",
-                borderRadius: "50%",
-                overflow: "hidden",
-                objectFit: "cover",
-                background: "black",
-              }}
-            >
-              <Avatar image={randomImage} size={40} />
-            </div>
-            <p
-              style={{
-                marginLeft: "10px",
-                fontSize: "1rem",
-                color: "#333",
-                fontWeight: "bold",
-              }}
-            >
-              {channel.name}
-            </p>
-          </div>
-          {<Divider />}
-        </>
-      ))}
+
+  return (
+    <div className="chats-preview-container">
+      <Tabs defaultActiveKey="2" className="chats-tabs" items={tabItems} />
     </div>
   );
-
-  return <ChannelView />;
 }
 
 export default ChannelsPreview;

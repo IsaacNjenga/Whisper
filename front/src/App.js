@@ -76,8 +76,9 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Navbar />}>
-                <Route index element={<Channels />} />
+                <Route index element={<Chats />} />
                 <Route path="chats" element={<Chats />} />
+                <Route path="channels" element={<Channels />} />
                 <Route path="auth" element={<Auth />} />
                 <Route path="logout" element={<Logout />} />
               </Route>

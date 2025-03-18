@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserContext } from "../App";
 import { ChannelList, useChatContext } from "stream-chat-react";
 import TeamChannelList from "./teamChannelList";
 import TeamChannelPreview from "./teamChannelPreview";
 import { Tabs } from "antd";
 import {
-  ClockCircleOutlined,
+  CommentOutlined,
   PlusCircleOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
@@ -55,20 +55,18 @@ const RecentList = ({
 };
 
 const ChatsPreview = () => {
-  const { isCreating, setIsCreating, setCreateType, setIsEditing } =
+  const { isCreating, setIsCreating, setCreateType, setIsEditing, createType } =
     useContext(UserContext);
+
+  useEffect(() => {
+    setCreateType("message");
+  });
 
   const tabItems = [
     {
       label: "New",
       key: "1",
-      children: (
-        <CreateChannel
-          createType={() => {
-            setCreateType("messaging");
-          }}
-        />
-      ),
+      children: <CreateChannel createType={createType} />,
       icon: <PlusCircleOutlined />,
     },
     {
@@ -82,7 +80,7 @@ const ChatsPreview = () => {
           setIsEditing={setIsEditing}
         />
       ),
-      icon: <ClockCircleOutlined />,
+      icon: <CommentOutlined />,
     },
     {
       label: "Search",

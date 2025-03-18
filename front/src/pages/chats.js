@@ -11,7 +11,10 @@ function Chats() {
     <div className="chats-page">
       <div className="chats-wrapper">
         {/* Sidebar for Chat Previews */}
-        <aside className="chats-sidebar" style={{ width: isMobile ? 340 : 400 }}>
+        <aside
+          className="chats-sidebar"
+          style={{ width: isMobile ? 340 : 400 }}
+        >
           <ChatsPreview />
         </aside>
 

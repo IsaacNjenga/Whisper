@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Layout, Menu,  } from "antd";
+import { Layout, Menu } from "antd";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import {
   CommentOutlined,
@@ -44,7 +44,7 @@ function Navbar() {
 
   const navItems = [
     { key: 1, label: "Chats", icon: CommentOutlined, path: "/chats" },
-    { key: 2, label: "Channels", icon: TeamOutlined, path: "/" },
+    { key: 2, label: "Channels", icon: TeamOutlined, path: "/channels" },
     {
       key: 3,
       label: authToken ? "Logout" : "Login",
