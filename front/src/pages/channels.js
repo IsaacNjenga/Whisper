@@ -4,7 +4,7 @@ import { UserContext } from "../App";
 import ChatContainer from "../components/chatContainer";
 
 function Channels() {
-  const { isMobile } = useContext(UserContext);
+  const { isMobile, setIsEditing, isEditing } = useContext(UserContext);
 
   return (
     <div className="chats-page">
@@ -16,7 +16,11 @@ function Channels() {
           <ChannelsPreview />
         </aside>
         <main className="chats-main">
-          <ChatContainer type="team" />
+          <ChatContainer
+            type="team"
+            setIsEditing={setIsEditing}
+            isEditing={isEditing}
+          />
         </main>
       </div>
     </div>

@@ -4,8 +4,13 @@ import UsersList from "./usersList";
 import { Alert, Button, Divider, Form, Input, Card } from "antd";
 import Swal from "sweetalert2";
 
-const ChannelNameInput = ({ channelName = "", setChannelName }) => {
+const ChannelNameInput = ({ channelName, setChannelName }) => {
   const [form] = Form.useForm();
+  // Update form values when channelName changes
+  useEffect(() => {
+    form.setFieldsValue({ channelName });
+  }, [channelName, form]);
+
   return (
     <Form layout="vertical" form={form}>
       <Form.Item
@@ -29,6 +34,8 @@ function EditChannel({ setIsEditing }) {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  console.log(channel);
+
   useEffect(() => {
     if (channel) {
       const existingMembers = Object.keys(channel.state.members);
@@ -49,8 +56,12 @@ function EditChannel({ setIsEditing }) {
       }
 
       const existingMembers = Object.keys(channel.state.members);
-      const newMembers = selectedUsers.filter((id) => !existingMembers.includes(id));
-      const removedMembers = existingMembers.filter((id) => !selectedUsers.includes(id));
+      const newMembers = selectedUsers.filter(
+        (id) => !existingMembers.includes(id)
+      );
+      const removedMembers = existingMembers.filter(
+        (id) => !selectedUsers.includes(id)
+      );
 
       if (newMembers.length) {
         await channel.addMembers(newMembers);
@@ -80,9 +91,19 @@ function EditChannel({ setIsEditing }) {
 
   return (
     <Card title="Edit Channel">
-      <ChannelNameInput channelName={channelName} setChannelName={setChannelName} />
-      <UsersList selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} />
-      <Button type="primary" onClick={updateChannel} style={{ marginTop: "10px" }}>
+      <ChannelNameInput
+        channelName={channelName}
+        setChannelName={setChannelName}
+      />
+      <UsersList
+        selectedUsers={selectedUsers}
+        setSelectedUsers={setSelectedUsers}
+      />
+      <Button
+        type="primary"
+        onClick={updateChannel}
+        style={{ marginTop: "10px" }}
+      >
         Save Changes
       </Button>
     </Card>
