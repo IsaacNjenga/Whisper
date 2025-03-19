@@ -17,7 +17,7 @@ const cookies = new Cookies();
 function Navbar() {
   const location = useLocation();
   const [current, setCurrent] = useState(location.pathname);
-  const { isMobile, authToken } = useContext(UserContext);
+  const { isMobile, authToken, activeChat } = useContext(UserContext);
 
   const logout = () => {
     Swal.fire({
@@ -72,7 +72,7 @@ function Navbar() {
           {/* Logo and Name Container */}
           <div
             style={{
-              display: "flex",
+              display: activeChat ? "none" : "flex",
               justifyContent: "left",
             }}
           >
@@ -196,7 +196,7 @@ function Navbar() {
         </Content>
         {/* Footer */}
         <Footer style={{ padding: "0px 0px", margin: "0px 0px" }}>
-          <div style={{ width: "100%" }}>
+          <div style={{ width: "100%", display: activeChat ? "none" : "flex" }}>
             <Menu
               theme="dark"
               mode="horizontal"

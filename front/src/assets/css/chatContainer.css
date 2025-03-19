@@ -1,5 +1,5 @@
 .channel-container {
-  height: 80vh; /* Fixed height */
+  height: 100vh; /* Fixed height */
   overflow-y: auto; /* Allow vertical scrolling */
   overflow-x: hidden; /* Prevent horizontal scrolling */
   border: 1px solid #ddd; /* Optional border */
