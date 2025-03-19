@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState,  } from "react";
 import { Channel, useChatContext, MessageSimple } from "stream-chat-react";
 import ChatInner from "./chatInner";
 import EditChannel from "./editChannel";
 import "../assets/css/chatContainer.css";
 import { Card, Typography } from "antd";
 import { MessageOutlined } from "@ant-design/icons";
-import { UserContext } from "../App";
 
 const { Text } = Typography;
 

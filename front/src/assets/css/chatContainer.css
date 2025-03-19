@@ -1,15 +1,28 @@
 .channel-container {
-  height: 75vh; /* Fixed height */
+  height: 80vh; /* Fixed height */
   overflow-y: auto; /* Allow vertical scrolling */
   overflow-x: hidden; /* Prevent horizontal scrolling */
   border: 1px solid #ddd; /* Optional border */
-  border-radius: 8px; /* Rounded corners */
-  background-color: #fff; /* Background color */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #ffffffa7; /* Background color */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  padding: 10px; /* Padding inside the container */
+  padding: 0px; /* Padding inside the container */
 }
 
 .empty-state {
   text-align: center; /* Center the empty state text */
   color: #888; /* Lighter color for the empty state */
+}
+
+.chats-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chats-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.chats-container::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
 }
