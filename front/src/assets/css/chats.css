@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   background-color: #f4f4f8;
+  height: 100%;
 }
 
 /* Wrapper for sidebar + main content */

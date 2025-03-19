@@ -122,6 +122,80 @@ function Navbar() {
             )}
           </div>
           {/* Menu Container */}
+          {/* <div style={{ width: "100%" }}>
+            <Menu
+              theme="dark"
+              mode="horizontal"
+              selectedKeys={[current]}
+              onClick={handleClick}
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                fontSize: "14px",
+                fontWeight: "bold",
+                background:
+                  "linear-gradient(to right, #3c83c6 0%, #e33a48 100%)",
+                color: "white",
+              }}
+              items={navItems.map(({ key, icon, label, path, onClick }) => ({
+                key: path || key,
+                icon: React.createElement(icon, {
+                  style: {
+                    fontSize: "1.55rem",
+                    marginBottom: "-20px",
+                    marginTop: "14px",
+                  },
+                }),
+                label: path ? (
+                  <Link
+                    to={path}
+                    style={{
+                      color: "white",
+                      textDecoration: "none",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "white",
+                        textDecoration: "none",
+                        fontSize: "1rem",
+                      }}
+                    >
+                      {label}
+                    </span>
+                  </Link>
+                ) : (
+                  label
+                ),
+                onClick,
+                style: {
+                  borderRadius: "15px",
+                  color: "white",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100px",
+                  textAlign: "center",
+                  gap: "2px",
+                },
+              }))}
+            ></Menu>
+          </div> */}
+        </Header>
+
+        {/* Main Content */}
+        <Content
+          style={{
+            padding: "0px 0px",
+            // minHeight: "calc(100vh - 64px - 70px)",
+          }}
+        >
+          <Outlet />
+        </Content>
+        {/* Footer */}
+        <Footer style={{ padding: "0px 0px", margin: "0px 0px" }}>
           <div style={{ width: "100%" }}>
             <Menu
               theme="dark"
@@ -183,21 +257,7 @@ function Navbar() {
               }))}
             ></Menu>
           </div>
-        </Header>
-
-        {/* Main Content */}
-        <Content
-          style={{
-            padding: "0px 0px",
-            minHeight: "calc(100vh - 64px - 70px)",
-          }}
-        >
-          <Outlet />
-        </Content>
-        {/* Footer */}
-        <Footer
-          style={{ padding: "0px 0px", margin: "0px 0px", background: "black" }}
-        ></Footer>
+        </Footer>
       </Layout>
     </>
   );

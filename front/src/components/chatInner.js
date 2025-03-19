@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   MessageList,
   MessageInput,
@@ -10,9 +10,14 @@ import {
   useChatContext,
 } from "stream-chat-react";
 import "../assets/css/chatInner.css";
-import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons";
-import { Avatar, Tooltip } from "antd";
+import {
+  ArrowLeftOutlined,
+  InfoCircleOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { Avatar, Tooltip, Button } from "antd";
 import { formatDistanceToNow } from "date-fns";
+import { UserContext } from "../App";
 
 export const GiphyContext = React.createContext({});
 
@@ -53,6 +58,7 @@ const ChatInner = ({ setIsEditing }) => {
 };
 
 const TeamChannelHeader = ({ setIsEditing }) => {
+  const { isMobile, setActiveChat } = useContext(UserContext);
   const { channel } = useChannelStateContext();
   const { client } = useChatContext();
   const [watcherCount, setWatcherCount] = useState(
@@ -89,6 +95,18 @@ const TeamChannelHeader = ({ setIsEditing }) => {
         <div className="channel-header">
           {members.map(({ user }, i) => (
             <div key={i} className="member-info">
+              {isMobile && (
+                <Button
+                  type="link"
+                  icon={<ArrowLeftOutlined />}
+                  onClick={() => setActiveChat(null)}
+                  style={{
+                    marginBottom: "10px",
+                    fontSize: "16px",
+                    color: "#1890ff",
+                  }}
+                ></Button>
+              )}
               <Avatar
                 image={user.image}
                 name={user.fullName || user.id}

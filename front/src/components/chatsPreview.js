@@ -12,7 +12,6 @@ import {
 import CreateChannel from "./createChannel";
 import "../assets/css/chatsPreview.css";
 import ChatSearch from "./chatSearch";
-import ChatContainer from "./chatContainer";
 
 const customChatMessagingFilter = (channels) => {
   return channels.filter((channel) => channel.type === "messaging");
@@ -56,14 +55,8 @@ const RecentList = ({
 };
 
 const ChatsPreview = () => {
-  const {
-    isCreating,
-    setIsCreating,
-    setCreateType,
-    setIsEditing,
-    createType,
-    isMobile,
-  } = useContext(UserContext);
+  const { isCreating, setIsCreating, setCreateType, setIsEditing, createType } =
+    useContext(UserContext);
 
   useEffect(() => {
     setCreateType("messaging");
@@ -100,7 +93,6 @@ const ChatsPreview = () => {
   return (
     <div className="chats-preview-container">
       <Tabs defaultActiveKey="2" className="chats-tabs" items={tabItems} />
-      
     </div>
   );
 };
