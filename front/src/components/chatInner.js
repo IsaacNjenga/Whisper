@@ -98,14 +98,14 @@ const TeamChannelHeader = ({ setIsEditing }) => {
               {isMobile && (
                 <Button
                   type="link"
-                  icon={<ArrowLeftOutlined />}
                   onClick={() => setActiveChat(null)}
                   style={{
-                    marginBottom: "10px",
-                    fontSize: "16px",
+                    fontSize: "26px",
                     color: "#1890ff",
                   }}
-                ></Button>
+                >
+                  <ArrowLeftOutlined />
+                </Button>
               )}
               <Avatar
                 image={user.image}
@@ -137,18 +137,19 @@ const TeamChannelHeader = ({ setIsEditing }) => {
     }
 
     return (
-      <div className="channel-info">{isMobile && (
-        <Button
-          type="link"
-          icon={<ArrowLeftOutlined />}
-          onClick={() => setActiveChat(null)}
-          style={{
-            marginBottom: "10px",
-            fontSize: "16px",
-            color: "#1890ff",
-          }}
-        ></Button>
-      )}
+      <div className="channel-info">
+        {isMobile && (
+          <Button
+            type="link"
+            onClick={() => setActiveChat(null)}
+            style={{
+              fontSize: "26px",
+              color: "#1890ff",
+            }}
+          >
+            <ArrowLeftOutlined />
+          </Button>
+        )}
         <p className="channel-name"># {channel.data.name}</p>
         <span
           className="edit-channel"

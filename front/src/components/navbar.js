@@ -72,7 +72,7 @@ function Navbar() {
           {/* Logo and Name Container */}
           <div
             style={{
-              display: activeChat ? "none" : "flex",
+              display: activeChat && isMobile ? "none" : "flex",
               justifyContent: "left",
             }}
           >
@@ -192,8 +192,16 @@ function Navbar() {
             // minHeight: "calc(100vh - 64px - 70px)",
           }}
         >
-          <Outlet />{" "}
-          <div style={{ width: "100%", display: activeChat ? "none" : "flex" }}>
+          <Outlet />
+        </Content>
+        {/* Footer */}
+        <Footer style={{ padding: "0px 0px", margin: "0px 0px" }}>
+          <div
+            style={{
+              width: "100%",
+              display: activeChat && isMobile ? "none" : "flex",
+            }}
+          >
             <Menu
               theme="dark"
               mode="horizontal"
@@ -254,11 +262,7 @@ function Navbar() {
               }))}
             ></Menu>
           </div>
-        </Content>
-        {/* Footer */}
-        {/* <Footer style={{ padding: "0px 0px", margin: "0px 0px" }}>
-          
-        </Footer> */}
+        </Footer>
       </Layout>
     </>
   );
