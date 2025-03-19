@@ -86,7 +86,7 @@ function Auth() {
       <div className="auth-container">
         <Card
           style={{
-            background: "linear-gradient(to left, #350d4b 0%, #e5001a 100%)",
+            background: "linear-gradient(to right, #3c83c6 0%, #e33a48 100%)",
             maxWidth: 600,
             margin: "5px auto",
             padding: 0,
