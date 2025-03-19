@@ -17,8 +17,12 @@ function TeamChannelPreview({
 }) {
   const { client } = useChatContext();
   const { isMobile, setActiveChat } = useContext(UserContext);
-  const ChannelPreview = () => (
-    <Text strong className="channel-preview__item">
+  const ChannelPreview = ({ channel }) => (
+    <Text
+      strong
+      className="channel-preview__item"
+      onClick={() => setActiveChat(channel)}
+    >
       # {channel?.data?.name || channel?.data?.id}
     </Text>
   );
@@ -84,7 +88,7 @@ function TeamChannelPreview({
       hoverable
     >
       {type === "team" ? (
-        <ChannelPreview />
+        <ChannelPreview channel={channel} />
       ) : (
         <DirectPreview channel={channel} client={client} />
       )}

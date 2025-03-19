@@ -137,7 +137,18 @@ const TeamChannelHeader = ({ setIsEditing }) => {
     }
 
     return (
-      <div className="channel-info">
+      <div className="channel-info">{isMobile && (
+        <Button
+          type="link"
+          icon={<ArrowLeftOutlined />}
+          onClick={() => setActiveChat(null)}
+          style={{
+            marginBottom: "10px",
+            fontSize: "16px",
+            color: "#1890ff",
+          }}
+        ></Button>
+      )}
         <p className="channel-name"># {channel.data.name}</p>
         <span
           className="edit-channel"
