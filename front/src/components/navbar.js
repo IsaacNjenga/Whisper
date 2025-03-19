@@ -192,10 +192,7 @@ function Navbar() {
             // minHeight: "calc(100vh - 64px - 70px)",
           }}
         >
-          <Outlet />
-        </Content>
-        {/* Footer */}
-        <Footer style={{ padding: "0px 0px", margin: "0px 0px" }}>
+          <Outlet />{" "}
           <div style={{ width: "100%", display: activeChat ? "none" : "flex" }}>
             <Menu
               theme="dark"
@@ -257,7 +254,11 @@ function Navbar() {
               }))}
             ></Menu>
           </div>
-        </Footer>
+        </Content>
+        {/* Footer */}
+        {/* <Footer style={{ padding: "0px 0px", margin: "0px 0px" }}>
+          
+        </Footer> */}
       </Layout>
     </>
   );

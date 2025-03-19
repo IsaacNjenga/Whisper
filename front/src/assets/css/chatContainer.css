@@ -1,5 +1,5 @@
 .channel-container {
-  height: 100vh; /* Fixed height */
+  height: 75vh; /* Fixed height */
   overflow-y: auto; /* Allow vertical scrolling */
   overflow-x: hidden; /* Prevent horizontal scrolling */
   border: 1px solid #ddd; /* Optional border */
@@ -12,6 +12,12 @@
 .empty-state {
   text-align: center; /* Center the empty state text */
   color: #888; /* Lighter color for the empty state */
+}
+
+@media (max-width: 768px) {
+  .channel-container {
+    height: 95vh;
+  }
 }
 
 .chats-container::-webkit-scrollbar {
