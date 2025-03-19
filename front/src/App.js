@@ -39,6 +39,7 @@ function App() {
   const [isCreating, setIsCreating] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [activeChat, setActiveChat] = useState(null);
 
   const showDrawer = () => setOpenDrawer(true);
   const closeDrawer = () => setOpenDrawer(false);
@@ -70,6 +71,8 @@ function App() {
           showDrawer,
           closeDrawer,
           authToken,
+          activeChat,
+          setActiveChat,
         }}
       >
         <Chat client={client} theme="team light">

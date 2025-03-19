@@ -79,11 +79,11 @@ const TeamChannelHeader = ({ setIsEditing }) => {
       ({ user }) => user.id !== client.userID
     );
     const additionalMembers = members.length - 3;
-  
+
     const user = members[0]?.user;
     const isOnline = user?.online;
     const lastActive = user?.last_active ? new Date(user.last_active) : null;
-  
+
     if (channel.type === "messaging") {
       return (
         <div className="channel-header">
@@ -117,7 +117,7 @@ const TeamChannelHeader = ({ setIsEditing }) => {
         </div>
       );
     }
-  
+
     return (
       <div className="channel-info">
         <p className="channel-name"># {channel.data.name}</p>

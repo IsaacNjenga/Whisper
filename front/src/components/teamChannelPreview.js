@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Avatar, Badge, Card, Typography } from "antd";
 import { useChatContext } from "stream-chat-react";
 import { UserOutlined } from "@ant-design/icons";
 import "../assets/css/teamChannelPreview.css";
 import { formatDistanceToNow } from "date-fns";
+import { UserContext } from "../App";
 
 const { Text } = Typography;
 
@@ -15,7 +16,7 @@ function TeamChannelPreview({
   setActiveChannel,
 }) {
   const { client } = useChatContext();
-
+  const { isMobile, setActiveChat } = useContext(UserContext);
   const ChannelPreview = () => (
     <Text strong className="channel-preview__item">
       # {channel?.data?.name || channel?.data?.id}
@@ -39,7 +40,7 @@ function TeamChannelPreview({
         : false;
 
     return (
-      <div className="direct-preview">
+      <div className="direct-preview" onClick={() => setActiveChat(channel)}>
         <Avatar
           src={user?.image}
           icon={<UserOutlined />}

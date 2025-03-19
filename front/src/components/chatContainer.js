@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Channel, useChatContext, MessageSimple } from "stream-chat-react";
 import ChatInner from "./chatInner";
 import EditChannel from "./editChannel";
 import "../assets/css/chatContainer.css";
-import { Card, Typography } from "antd";
-import { MessageOutlined } from "@ant-design/icons";
+import { Button, Card, Typography } from "antd";
+import { ArrowLeftOutlined, MessageOutlined } from "@ant-design/icons";
+import { UserContext } from "../App";
 
 const { Text } = Typography;
 
 function ChatContainer({ isEditing, setIsEditing }) {
   const { channel } = useChatContext();
   const [forceUpdate, setForceUpdate] = useState(false);
-
+  const { isMobile, setActiveChat } = useContext(UserContext);
   //console.log(type);
   useEffect(() => {
     if (channel) setForceUpdate((prev) => !prev);
@@ -64,6 +65,18 @@ function ChatContainer({ isEditing, setIsEditing }) {
 
   return (
     <div className="channel-container">
+      {" "}
+      {/* Mobile Back Button */}
+      {isMobile && (
+        <Button
+          type="link"
+          icon={<ArrowLeftOutlined />}
+          onClick={() => setActiveChat(null)}
+          style={{ marginBottom: "10px", fontSize: "16px", color: "#1890ff" }}
+        >
+          Back to Chats
+        </Button>
+      )}
       <Channel
         EmptyStateIndicator={EmptyState}
         Message={(messageProps, i) => (

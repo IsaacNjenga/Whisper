@@ -66,7 +66,7 @@ function Navbar() {
             width: "100%",
             height: "auto",
             padding: "1px",
-            background: "linear-gradient(to right, #635c49 0%, #ffffff 100%)",
+            background: "linear-gradient(to right, #3c83c6 0%, #e33a48 100%)",
           }}
         >
           {/* Logo and Name Container */}
@@ -134,7 +134,7 @@ function Navbar() {
                 fontSize: "14px",
                 fontWeight: "bold",
                 background:
-               'linear-gradient(to right, #635c49 0%, #ffffff 100%)',
+                  "linear-gradient(to right, #3c83c6 0%, #e33a48 100%)",
                 color: "white",
               }}
               items={navItems.map(({ key, icon, label, path, onClick }) => ({
