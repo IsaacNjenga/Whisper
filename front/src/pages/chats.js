@@ -14,7 +14,7 @@ function Chats() {
         {!isMobile || !activeChat ? ( // Hide chat list when active chat is open
           <aside
             className="chats-sidebar"
-            style={{ width: isMobile ? 340 : 400 }}
+            style={{ width: isMobile ? "100%" : 400 }}
           >
             <ChatsPreview />
           </aside>
