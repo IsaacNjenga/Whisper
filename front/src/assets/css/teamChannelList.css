@@ -1,6 +1,6 @@
 .team-channel-list {
-  background-color: #f9f9f9; /* Light background color */
-  border-radius: 7px; /* Rounded corners */
+  background-color: whitesmoke; /* Light background color */
+  border-radius: 0px; /* Rounded corners */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
@@ -16,5 +16,5 @@
 }
 
 .channel-list-content {
-  margin-top: 10px; /* Space above the channel list */
+  margin-top: 2px; /* Space above the channel list */
 }

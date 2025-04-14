@@ -1,22 +1,25 @@
 /* Chats Preview Container */
 .chats-preview-container {
   background-color: #fff;
-  padding: 3px;
+  padding: 0px;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
+  height: 100%;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 /* Tabs */
 .chats-tabs .ant-tabs-nav {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   border-bottom: 2px solid #ddd;
 }
 
 .chats-tabs .ant-tabs-tab {
   font-size: 16px;
   font-weight: 400;
-  padding: 12px 8px;
+  padding: 10px 8px;
   transition: 0.3s;
 }
 
