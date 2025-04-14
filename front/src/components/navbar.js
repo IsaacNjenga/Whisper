@@ -97,27 +97,36 @@ function Navbar() {
               </>
             ) : (
               <>
-                <img
-                  src={logo}
-                  alt="logo"
+                <div
                   style={{
-                    width: "75px",
-                    height: "75px",
-                    marginRight: "10px",
-                  }}
-                />
-                <h1
-                  style={{
-                    color: "#f0ecec",
-                    margin: 0,
-                    fontSize: "2.5rem",
-                    letterSpacing: "1.8px",
-                    fontFamily: "'Brush Script MT', cursive",
-                    zIndex: 10,
+                    display: "flex",
+                    alignContent: "center",
+                    alignItems: "center",
                   }}
                 >
-                  Whisper
-                </h1>
+                  <img
+                    src={logo}
+                    alt="logo"
+                    style={{
+                      width: "95px",
+                      height: "95px",
+                      marginRight: "5px",
+                      marginLeft: "10px",
+                    }}
+                  />
+                  <h1
+                    style={{
+                      color: "#f0ecec",
+                      margin: 0,
+                      fontSize: "2.8rem",
+                      letterSpacing: "2px",
+                      fontFamily: "'Brush Script MT', cursive",
+                      zIndex: 10,
+                    }}
+                  >
+                    Whisper
+                  </h1>
+                </div>
               </>
             )}
           </div>
@@ -210,19 +219,19 @@ function Navbar() {
               style={{
                 flex: 1,
                 justifyContent: "center",
-                fontSize: "14px",
+                fontSize: isMobile ? "0.8rem" : "1rem",
                 fontWeight: "bold",
                 background:
                   "linear-gradient(to right, #3c83c6 0%, #e33a48 100%)",
                 color: "white",
+                minHeight: "auto",
+                padding: "5px 0px",
               }}
               items={navItems.map(({ key, icon, label, path, onClick }) => ({
                 key: path || key,
                 icon: React.createElement(icon, {
                   style: {
-                    fontSize: "1.55rem",
-                    marginBottom: "-20px",
-                    marginTop: "14px",
+                    fontSize: "1.65rem",
                   },
                 }),
                 label: path ? (
@@ -231,14 +240,15 @@ function Navbar() {
                     style={{
                       color: "white",
                       textDecoration: "none",
-                      fontSize: "1rem",
                     }}
                   >
                     <span
                       style={{
                         color: "white",
                         textDecoration: "none",
-                        fontSize: "1rem",
+                        fontSize: isMobile ? "0.8rem" : "1rem",
+                        alignContent: "center",
+                        alignItems: "ceter",
                       }}
                     >
                       {label}
@@ -249,15 +259,14 @@ function Navbar() {
                 ),
                 onClick,
                 style: {
+                  background: "rgb(0,0,0,0.25)",
                   borderRadius: "15px",
                   color: "white",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "100px",
-                  textAlign: "center",
-                  gap: "2px",
+                  width: "auto",
+                  padding: isMobile ? "2px 10px" : "5px 10px",
+                  margin: isMobile ? "2px 6px" : "5px 10px",
+                  alignContent: "center",
+                  alignItems: "ceter",
                 },
               }))}
             ></Menu>
