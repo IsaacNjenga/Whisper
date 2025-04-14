@@ -59,7 +59,12 @@ function TeamChannelPreview({
             >
               {lastMessage
                 ? `${lastMessage.user.id === client.userID ? "You: " : ""}${
-                    lastMessage.text || "Sent an attachment"
+                    (lastMessage.text || "Sent an attachment").length > 50
+                      ? (lastMessage.text || "Sent an attachment").slice(
+                          0,
+                          10
+                        ) + "..."
+                      : lastMessage.text || "Sent an attachment"
                   }`
                 : "No messages yet"}
             </Text>

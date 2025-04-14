@@ -1,6 +1,6 @@
 import React from "react";
-import { Spin, Alert } from "antd"; // Importing Ant Design components for loading and error handling
-import "../assets/css/teamChannelList.css"; // Assuming you have a CSS file for styles
+import { Spin, Alert } from "antd";  
+import "../assets/css/teamChannelList.css";
 
 function TeamChannelList({ children, error = false, loading, type }) {
   return (
