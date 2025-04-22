@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react";
-import { Layout, Menu } from "antd";
+import { FloatButton, Layout, Menu } from "antd";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import {
   CommentOutlined,
   PoweroffOutlined,
+  RobotOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
 import logo from "../assets/icons/chat-icon.png";
@@ -55,8 +56,22 @@ function Navbar() {
 
   const handleClick = (e) => setCurrent(e.key);
 
+  const botChat = () => {
+    Swal.fire({
+      icon: "warning",
+      title: "Coming Soon!",
+      text: "The bot feature is not available yet",
+    });
+  };
+
   return (
     <>
+      <FloatButton
+        icon={<RobotOutlined />}
+        type="primary"
+        style={{ insetInlineEnd: 24 }}
+        onClick={botChat}
+      />
       <Layout style={{ minHeight: "100vh" }}>
         <Header
           style={{
