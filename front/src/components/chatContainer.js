@@ -1,20 +1,49 @@
-import React, { useEffect, useState,  } from "react";
+import React, { useEffect, useState } from "react";
 import { Channel, useChatContext, MessageSimple } from "stream-chat-react";
 import ChatInner from "./chatInner";
 import EditChannel from "./editChannel";
 import "../assets/css/chatContainer.css";
-import { Card, Typography } from "antd";
+import { Card, Modal, Typography, Button } from "antd";
 import { MessageOutlined } from "@ant-design/icons";
+import VideoChat from "./videoChat";
+import "@stream-io/video-react-sdk/dist/css/styles.css";
 
 const { Text } = Typography;
 
 function ChatContainer({ isEditing, setIsEditing }) {
   const { channel } = useChatContext();
+  const [incomingCallId, setIncomingCallId] = useState(null);
   const [forceUpdate, setForceUpdate] = useState(false);
-  //console.log(type);
+  const [showIncomingModal, setShowIncomingModal] = useState(false);
+  const [isVideoVisible, setIsVideoVisible] = useState(false);
+
   useEffect(() => {
     if (channel) setForceUpdate((prev) => !prev);
   }, [channel]);
+
+  useEffect(() => {
+    if (!channel) return;
+
+    const handleIncomingCall = (event) => {
+      if (event.message?.type === "video-call" && event.message?.callId) {
+        setIncomingCallId(event.message.callId);
+        setShowIncomingModal(true);
+      }
+    };
+
+    channel.on("message.new", handleIncomingCall);
+    return () => channel.off("message.new", handleIncomingCall);
+  }, [channel]);
+
+  const handleAcceptCall = () => {
+    setShowIncomingModal(false);
+    setIsVideoVisible(true); // Will trigger <VideoChat />
+  };
+
+  const handleDeclineCall = () => {
+    setIncomingCallId(null);
+    setShowIncomingModal(false);
+  };
 
   if (isEditing) {
     return (
@@ -70,7 +99,30 @@ function ChatContainer({ isEditing, setIsEditing }) {
         )}
       >
         <ChatInner setIsEditing={setIsEditing} />
-      </Channel>
+      </Channel>{" "}
+      {incomingCallId && (
+        <VideoChat
+          callId={incomingCallId}
+          isVisible={isVideoVisible}
+          setIsVisible={setIsVideoVisible}
+        />
+      )}
+      {/* Incoming Call Notification Modal */}
+      <Modal
+        open={showIncomingModal}
+        title="Incoming Video Call"
+        onCancel={handleDeclineCall}
+        footer={[
+          <Button key="decline" danger onClick={handleDeclineCall}>
+            Decline
+          </Button>,
+          <Button key="accept" type="primary" onClick={handleAcceptCall}>
+            Accept
+          </Button>,
+        ]}
+      >
+        <p>You are receiving a video call. Would you like to join?</p>
+      </Modal>
     </div>
   );
 }

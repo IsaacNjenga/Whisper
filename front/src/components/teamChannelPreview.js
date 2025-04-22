@@ -62,7 +62,7 @@ function TeamChannelPreview({
                     (lastMessage.text || "Sent an attachment").length > 50
                       ? (lastMessage.text || "Sent an attachment").slice(
                           0,
-                          30
+                          33
                         ) + "..."
                       : lastMessage.text || "Sent an attachment"
                   }`

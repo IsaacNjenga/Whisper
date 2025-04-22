@@ -20,6 +20,11 @@ import { Avatar, Tooltip, Button } from "antd";
 import { formatDistanceToNow } from "date-fns";
 import { UserContext } from "../App";
 import Swal from "sweetalert2";
+import VideoChat from "./videoChat";
+import Cookies from "universal-cookie";
+import { v4 as uuidv4 } from "uuid"; // For unique call IDs
+
+const cookies = new Cookies();
 
 export const GiphyContext = React.createContext({});
 
@@ -205,24 +210,70 @@ const TeamChannelHeader = ({ setIsEditing }) => {
     if (channel.type === "team")
       return <p className="online-text">{watcherCount} online</p>;
   };
-  const startCall = () => {
-    Swal.fire({
-      icon: "warning",
-      title: "Coming Soon!",
-      text: "This feature is not available yet",
+
+  const [isVideoVisible, setIsVideoVisible] = useState(false);
+  const [callId, setCallId] = useState(null);
+  const [videoChatProps, setVideoChatProps] = useState({});
+
+  const getShortCallId = (userId1, userId2) => {
+    const sorted = [userId1, userId2].sort().join("-");
+    const hash = btoa(sorted)
+      .replace(/[^a-z0-9]/gi, "")
+      .toLowerCase();
+    return `call-${hash.slice(0, 48)}`;
+  };
+
+  // const startCall = () => {
+  //   const members = Object.values(channel?.state?.members).filter(
+  //     ({ user }) => user.id !== client.userID
+  //   );
+  //   const userObject = members[0]?.user;
+  //   const id = userObject.id;
+  //   const currentUserId = cookies.get("userId");
+
+  //   const callId = getShortCallId(currentUserId, id);
+
+  //   setVideoChatProps({
+  //     userObject,
+  //     callId,
+  //     setIsVideoChatVisible,
+  //     isVideoChatVisible,
+  //   });
+  //   setIsVideoChatVisible(true);
+  // };
+
+  const handleVideoCall = async () => {
+    const newCallId = `call-${uuidv4().slice(0, 58)}`; // Ensure < 64 characters
+    setCallId(newCallId);
+    setIsVideoVisible(true);
+
+    // Notify other user
+    await channel.sendMessage({
+      text: "Incoming video call",
+      type: "video-call",
+      callId: newCallId,
     });
   };
 
   return (
-    <div className="header-container">
-      <MessagingHeader />
-      <div className="online-status">
-        <div className="video-call-icon" onClick={startCall}>
-          <VideoCameraOutlined />
+    <>
+      <div className="header-container">
+        <MessagingHeader />
+        <div className="online-status">
+          <div className="video-call-icon" onClick={handleVideoCall }>
+            <VideoCameraOutlined />
+          </div>
+          <div> {getWatcherText()}</div>
         </div>
-        <div> {getWatcherText()}</div>
       </div>
-    </div>
+      {isVideoVisible && (
+        <VideoChat
+          callId={callId}
+          isVisible={isVideoVisible}
+          setIsVisible={setIsVideoVisible}
+        />
+      )}
+    </>
   );
 };
 
