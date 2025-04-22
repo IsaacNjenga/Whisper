@@ -113,4 +113,6 @@
   border-radius: 50%;
   font-size: 1.6rem;
   margin: 0px auto;
+  color: green;
+  cursor: pointer;
 }

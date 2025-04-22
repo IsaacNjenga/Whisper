@@ -19,6 +19,7 @@ import {
 import { Avatar, Tooltip, Button } from "antd";
 import { formatDistanceToNow } from "date-fns";
 import { UserContext } from "../App";
+import Swal from "sweetalert2";
 
 export const GiphyContext = React.createContext({});
 
@@ -204,12 +205,19 @@ const TeamChannelHeader = ({ setIsEditing }) => {
     if (channel.type === "team")
       return <p className="online-text">{watcherCount} online</p>;
   };
+  const startCall = () => {
+    Swal.fire({
+      icon: "warning",
+      title: "Coming Soon!",
+      text: "This feature is not available yet",
+    });
+  };
 
   return (
     <div className="header-container">
       <MessagingHeader />
       <div className="online-status">
-        <div className="video-call-icon">
+        <div className="video-call-icon" onClick={startCall}>
           <VideoCameraOutlined />
         </div>
         <div> {getWatcherText()}</div>
