@@ -82,6 +82,9 @@
 .online-status {
   font-size: 12px;
   color: #555;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
 }
 
 .status-text {
@@ -102,4 +105,12 @@
   display: flex;
   align-items: center;
   position: relative;
+}
+
+.video-call-icon {
+  align-items: center;
+  align-content: center;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  margin: 0px auto;
 }

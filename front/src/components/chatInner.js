@@ -14,6 +14,7 @@ import {
   ArrowLeftOutlined,
   InfoCircleOutlined,
   UserOutlined,
+  VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Avatar, Tooltip, Button } from "antd";
 import { formatDistanceToNow } from "date-fns";
@@ -118,13 +119,15 @@ const TeamChannelHeader = ({ setIsEditing }) => {
               <div className="member-details">
                 <p className="member-name">{user.fullName || user.id}</p>
                 <p className="member-status">
-                  {isOnline
-                    ? "Online"
-                    : lastActive
-                    ? `Active ${formatDistanceToNow(lastActive, {
-                        addSuffix: true,
-                      })}`
-                    : "Offline"}
+                  <span>
+                    {isOnline
+                      ? "Online"
+                      : lastActive
+                      ? `Last active ${formatDistanceToNow(lastActive, {
+                          addSuffix: true,
+                        })}`
+                      : "Offline"}
+                  </span>
                 </p>
               </div>
             </div>
@@ -205,7 +208,12 @@ const TeamChannelHeader = ({ setIsEditing }) => {
   return (
     <div className="header-container">
       <MessagingHeader />
-      <div className="online-status">{getWatcherText()}</div>
+      <div className="online-status">
+        <div className="video-call-icon">
+          <VideoCameraOutlined />
+        </div>
+        <div> {getWatcherText()}</div>
+      </div>
     </div>
   );
 };

@@ -16,7 +16,7 @@ function TeamChannelPreview({
   setActiveChannel,
 }) {
   const { client } = useChatContext();
-  const { isMobile, setActiveChat } = useContext(UserContext);
+  const {  setActiveChat } = useContext(UserContext);
   const ChannelPreview = ({ channel }) => (
     <Text
       strong
@@ -58,11 +58,11 @@ function TeamChannelPreview({
               className={`direct-message ${isUnread ? "unread-message" : ""}`}
             >
               {lastMessage
-                ? `${lastMessage.user.id === client.userID ? "You: " : ""}${
+                ? `${lastMessage.user.id === client.userID ? "" : ""}${
                     (lastMessage.text || "Sent an attachment").length > 50
                       ? (lastMessage.text || "Sent an attachment").slice(
                           0,
-                          10
+                          30
                         ) + "..."
                       : lastMessage.text || "Sent an attachment"
                   }`
@@ -71,7 +71,7 @@ function TeamChannelPreview({
             {lastMessage?.created_at && (
               <Text className="message-time">
                 {formatDistanceToNow(new Date(lastMessage.created_at), {
-                  addSuffix: true,
+                  addSuffix: false,
                 })}
               </Text>
             )}
