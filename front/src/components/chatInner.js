@@ -244,15 +244,20 @@ const TeamChannelHeader = ({ setIsEditing }) => {
 
   const handleVideoCall = async () => {
     const newCallId = `call-${uuidv4().slice(0, 58)}`; // Ensure < 64 characters
+    const currentUserName = cookies.get("fullName");
     setCallId(newCallId);
     setIsVideoVisible(true);
 
-    // Notify other user
-    await channel.sendMessage({
-      text: "Incoming video call",
-      type: "video-call",
-      callId: newCallId,
-    });
+    try {
+      const response = await channel.sendMessage({
+        text: `${currentUserName} is calling...`,
+        type: "video-call",
+        callId,
+      });
+      console.log("Video call message sent:", response);
+    } catch (err) {
+      console.error("Failed to send video call message:", err);
+    }
   };
 
   return (
@@ -260,7 +265,7 @@ const TeamChannelHeader = ({ setIsEditing }) => {
       <div className="header-container">
         <MessagingHeader />
         <div className="online-status">
-          <div className="video-call-icon" onClick={handleVideoCall }>
+          <div className="video-call-icon" onClick={handleVideoCall}>
             <VideoCameraOutlined />
           </div>
           <div> {getWatcherText()}</div>

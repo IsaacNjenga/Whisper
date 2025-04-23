@@ -7,20 +7,23 @@ function IncomingCallListener({ onIncomingCall }) {
   useEffect(() => {
     const handleNewMessage = (event) => {
       const message = event.message;
-      if (message.type === "video-call" && message.callId) {
-        onIncomingCall({
-          callId: message.callId,
-          from: message.user,
-        });
+      if (message?.type === "video-call" && message?.callId) {
+        onIncomingCall({ callId: message.callId, from: message.user });
       }
     };
 
-    channel.on("message.new", handleNewMessage);
+    if (channel) {
+      channel.on("message.new", handleNewMessage);
+    }
 
     return () => {
-      channel.off("message.new", handleNewMessage);
+      if (channel) {
+        channel.off("message.new", handleNewMessage);
+      }
     };
   }, [channel, onIncomingCall]);
 
-  return null; 
+  return null;
 }
+
+export default IncomingCallListener;

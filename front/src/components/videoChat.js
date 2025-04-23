@@ -10,6 +10,7 @@ import {
   SpeakerLayout,
   CallControls,
 } from "@stream-io/video-react-sdk";
+import "@stream-io/video-react-sdk/dist/css/styles.css";
 import { Modal, Spin, Button } from "antd";
 import Cookies from "universal-cookie";
 import { UserContext } from "../App";
@@ -28,14 +29,20 @@ const VideoChat = ({ callId, isVisible, setIsVisible }) => {
   const [call, setCall] = useState(null);
 
   useEffect(() => {
-    const streamClient = new StreamVideoClient({ apiKey, user, token: authToken });
+    const streamClient = new StreamVideoClient({
+      apiKey,
+      user,
+      token: authToken,
+    });
     const streamCall = streamClient.call("default", callId);
 
     setClient(streamClient);
     setCall(streamCall);
 
     if (isVisible) {
-      streamCall.join({ create: true });
+      streamCall.join({ create: true }); // creator
+    } else {
+      streamCall.join(); // for recipient
     }
 
     return () => {
