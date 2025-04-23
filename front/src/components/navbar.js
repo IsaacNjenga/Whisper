@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
-import { FloatButton, Layout, Menu } from "antd";
+import { Card, FloatButton, Layout, Menu } from "antd";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import {
+  CloseOutlined,
   CommentOutlined,
   PoweroffOutlined,
   RobotOutlined,
@@ -19,6 +20,7 @@ function Navbar() {
   const location = useLocation();
   const [current, setCurrent] = useState(location.pathname);
   const { isMobile, authToken, activeChat } = useContext(UserContext);
+  const [openBot, setOpenBot] = useState(true);
 
   const logout = () => {
     Swal.fire({
@@ -57,21 +59,35 @@ function Navbar() {
   const handleClick = (e) => setCurrent(e.key);
 
   const botChat = () => {
-    Swal.fire({
-      icon: "warning",
-      title: "Coming Soon!",
-      text: "The bot feature is not available yet",
-    });
+    setOpenBot((prev) => !prev);
   };
 
   return (
     <>
+      {openBot && (
+        <Card
+          title="WhisperBot"
+          extra={<CloseOutlined onClick={() => setOpenBot(false)} />}
+          style={{
+            position: "fixed",
+            bottom: 100,
+            right: 24,
+            width: 300,
+            zIndex: 1001,
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+          }}
+        >
+          <p>Hello, how can I help you?</p>
+        </Card>
+      )}
+
       <FloatButton
         icon={<RobotOutlined />}
         type="primary"
-        style={{ insetInlineEnd: 24 }}
+        style={{ right: 24 }}
         onClick={botChat}
       />
+
       <Layout style={{ minHeight: "100vh" }}>
         <Header
           style={{
