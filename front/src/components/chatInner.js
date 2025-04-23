@@ -251,8 +251,9 @@ const TeamChannelHeader = ({ setIsEditing }) => {
     try {
       const response = await channel.sendMessage({
         text: `${currentUserName} is calling...`,
-        type: "video-call",
-        callId,
+        type: "regular",
+        custom_type: "video-call",
+        callId: newCallId,
       });
       console.log("Video call message sent:", response);
     } catch (err) {

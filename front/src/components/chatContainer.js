@@ -38,7 +38,9 @@ function ChatContainer({ isEditing, setIsEditing }) {
     ring.loop = true;
 
     if (showIncomingModal) {
-      ring.play().catch((error) => console.error("Error playing sound:", error));
+      ring
+        .play()
+        .catch((error) => console.error("Error playing sound:", error));
     }
 
     return () => ring.pause();
@@ -48,9 +50,26 @@ function ChatContainer({ isEditing, setIsEditing }) {
 
   if (!channel || !channel.id) {
     return (
-      <Card style={{ padding: "20px", textAlign: "center", backgroundColor: "#f9f9f9", border: "1px dashed #ddd", borderRadius: "8px", margin: "20px" }}>
+      <Card
+        style={{
+          padding: "20px",
+          textAlign: "center",
+          backgroundColor: "#f9f9f9",
+          border: "1px dashed #ddd",
+          borderRadius: "8px",
+          margin: "20px",
+        }}
+      >
         <MessageOutlined style={{ fontSize: "40px", color: "#888" }} />
-        <Text style={{ display: "block", marginTop: "10px", fontSize: "1.2rem", fontWeight: "bold", color: "#333" }}>
+        <Text
+          style={{
+            display: "block",
+            marginTop: "10px",
+            fontSize: "1.2rem",
+            fontWeight: "bold",
+            color: "#333",
+          }}
+        >
           Select a chat to start messaging
         </Text>
         <Text style={{ display: "block", marginTop: "5px", color: "#666" }}>
@@ -70,11 +89,18 @@ function ChatContainer({ isEditing, setIsEditing }) {
     <div className="channel-container">
       <Channel
         EmptyStateIndicator={EmptyState}
-        Message={(messageProps, i) => <MessageSimple key={i} {...messageProps} />}
+        Message={(messageProps, i) => (
+          <MessageSimple key={i} {...messageProps} />
+        )}
       >
         <ChatInner setIsEditing={setIsEditing} />
-        <IncomingCallListener onIncomingCall={handleIncomingCall} /> {/* ✅ Receiver listens here */}
       </Channel>
+      <IncomingCallListener
+        onIncomingCall={({ callId }) => {
+          setIncomingCallId(callId);
+          setShowIncomingModal(true);
+        }}
+      />
 
       {incomingCallId && (
         <VideoChat
@@ -89,8 +115,12 @@ function ChatContainer({ isEditing, setIsEditing }) {
         title="Incoming Video Call"
         onCancel={handleDeclineCall}
         footer={[
-          <Button key="decline" danger onClick={handleDeclineCall}>Decline</Button>,
-          <Button key="accept" type="primary" onClick={handleAcceptCall}>Accept</Button>
+          <Button key="decline" danger onClick={handleDeclineCall}>
+            Decline
+          </Button>,
+          <Button key="accept" type="primary" onClick={handleAcceptCall}>
+            Accept
+          </Button>,
         ]}
       >
         <p>You are receiving a video call. Would you like to join?</p>
