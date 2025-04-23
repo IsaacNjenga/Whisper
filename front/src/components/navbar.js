@@ -1,8 +1,7 @@
 import React, { useState, useContext } from "react";
-import { Card, FloatButton, Layout, Menu } from "antd";
+import { FloatButton, Layout, Menu } from "antd";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import {
-  CloseOutlined,
   CommentOutlined,
   PoweroffOutlined,
   RobotOutlined,
@@ -12,6 +11,8 @@ import logo from "../assets/icons/chat-icon.png";
 import { UserContext } from "../App";
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
+import ChatbotUI from "./chatbotUI";
+import axios from "axios";
 
 const { Header, Content, Footer } = Layout;
 const cookies = new Cookies();
@@ -19,8 +20,13 @@ const cookies = new Cookies();
 function Navbar() {
   const location = useLocation();
   const [current, setCurrent] = useState(location.pathname);
+  const [loading, setLoading] = useState(false);
   const { isMobile, authToken, activeChat } = useContext(UserContext);
   const [openBot, setOpenBot] = useState(true);
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState([
+    { role: "system", content: "Ask me anything..." },
+  ]);
 
   const logout = () => {
     Swal.fire({
@@ -62,23 +68,45 @@ function Navbar() {
     setOpenBot((prev) => !prev);
   };
 
+  const sendMessage = async () => {
+    if (!input.trim()) return;
+    setLoading(true);
+    const newMessages = [...messages, { role: "user", content: input }];
+    setMessages(newMessages);
+    setInput("");
+
+    try {
+      const res = await axios.post(
+        "https://whisper-server-xi.vercel.app/whisper/chatbot",
+        {
+          messages: newMessages,
+        }
+      );
+      setMessages([
+        ...newMessages,
+        { role: "assistant", content: res.data.reply },
+      ]);
+    } catch (err) {
+      setMessages([
+        ...newMessages,
+        { role: "assistant", content: "Something went wrong." },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       {openBot && (
-        <Card
-          title="WhisperBot"
-          extra={<CloseOutlined onClick={() => setOpenBot(false)} />}
-          style={{
-            position: "fixed",
-            bottom: 100,
-            right: 24,
-            width: 300,
-            zIndex: 1001,
-            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-          }}
-        >
-          <p>Hello, how can I help you?</p>
-        </Card>
+        <ChatbotUI
+          messages={messages}
+          input={input}
+          setInput={setInput}
+          sendMessage={sendMessage}
+          loading={loading}
+          setOpenBot={setOpenBot}
+        />
       )}
 
       <FloatButton
