@@ -98,7 +98,9 @@ const ChatbotUI = ({
             >
               <>
                 <div>
-                  <Text strong>{msg.role === "user" ? "You" : "Bot"}:</Text>
+                  <Text strong>
+                    {msg.role === "user" ? "You" : "WhisperBot"}:
+                  </Text>
                   {renderMessageContent(msg)}
                 </div>
               </>
